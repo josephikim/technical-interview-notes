@@ -52,14 +52,14 @@ var MyQueue = function () {
  * @return {void}
  */
 MyQueue.prototype.push = function (x) {
-	return this.queue.push(x);
+	this.queue.push(x);
 };
 
 /**
  * @return {number}
  */
 MyQueue.prototype.pop = function () {
-	return this.queue.pop(x);
+	return this.queue.shift();
 };
 
 /**
@@ -86,8 +86,11 @@ MyQueue.prototype.empty = function () {
  */
 
 var obj = new MyQueue();
+obj.push(1);
 console.dir(obj);
-// obj.push(3);
-// var param_2 = obj.pop();
-// var param_3 = obj.peek();
-// var param_4 = obj.empty();
+obj.push(2);
+console.dir(obj);
+console.dir(obj.peek());
+obj.pop();
+console.dir(obj.empty());
+console.dir(obj);
