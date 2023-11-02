@@ -47,7 +47,8 @@
 
 // Optimal solution
 
-// Allows for amortized O(1) time complexity (see above)
+// Allows for amortized O(1) time complexity
+// amortized means, in most of the case (S2 non-empty), it's O(1). But, in very few cases( S2 is empty), it's O(N). Hence, it is a amortized solution.
 // Use two stacks to implement a FIFO queue
 
 var MyQueue = function () {
