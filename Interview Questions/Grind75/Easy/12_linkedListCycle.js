@@ -90,17 +90,17 @@ var hasCycle = function (head) {
  * }
  */
 
-var hasCycle = function (head) {
-	if (!head) return false;
-	let map = {};
-	let pointer = head;
-	let index = 0;
+// var hasCycle = function (head) {
+// 	if (!head) return false;
+// 	let map = {};
+// 	let pointer = head;
+// 	let index = 0;
 
-	while (pointer.next && map[pointer.next.val] == undefined) {
-		map[pointer.val] = index;
-		pointer = pointer.next;
-		index++;
-	}
+// 	while (pointer.next && map[pointer.next.val] == undefined) {
+// 		map[pointer.val] = index;
+// 		pointer = pointer.next;
+// 		index++;
+// 	}
 
-	return pointer.next !== null;
-};
+// 	return pointer.next !== null;
+// };
