@@ -27,12 +27,12 @@
 
 /***********************************/
 
-// Optimal solution
+// Optimal solution (Recursive)
 
 // Time complexity = worst case O(logN)
 // Space complexity = O(1)
 
-// Take advantage of inherent qualities of BST (ie all values left of a node will be less than the node val, likewise right side will be greater than node val)
+// Take advantage of INHERENT QUALITIES of BST (ie all values left of a node will be less than the node val, likewise right side will be greater than node val)
 // Use recursive function to check each node starting from root
 // 	  iterate recursive function only if both p and q are greater than or less than node val
 //    if so, move on to node.left or node.right (thus eliminates half of searchable subtree for each iteration))
@@ -65,7 +65,7 @@ var lowestCommonAncestor = function (root, p, q) {
 
 /***********************************/
 
-// Naive solution
+// Naive solution (Recursive)
 
 // Time complexity = worst case O(N) where N = tree.length (hits every node)
 // Space complexity = O(1)

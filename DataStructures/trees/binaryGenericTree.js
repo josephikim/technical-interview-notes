@@ -9,7 +9,7 @@ class Node {
 	}
 }
 
-// Binary tree class
+// GENERIC binary tree class
 class BinaryTree {
 	constructor() {
 		// root of a binary tree
@@ -18,26 +18,26 @@ class BinaryTree {
 		this.maxValue = -100000000;
 	}
 
-	// function to insert a node by level order using FIFO queue
+	// Insert a node by level order using FIFO queue (similar to BFS)
 	insert(data) {
-		const q = [];
+		const queue = [];
 		if (this.root === null) {
 			this.root = new Node(data);
 		} else {
-			q.push(this.root);
-			while (q.length !== 0) {
-				const node = q.shift();
+			queue.push(this.root);
+			while (queue.length !== 0) {
+				const node = queue.shift();
 				if (node.left === null) {
 					node.left = new Node(data);
 					break;
 				} else {
-					q.push(node.left);
+					queue.push(node.left);
 				}
 				if (node.right === null) {
 					node.right = new Node(data);
 					break;
 				} else {
-					q.push(node.right);
+					queue.push(node.right);
 				}
 			}
 		}
@@ -113,6 +113,46 @@ class BinaryTree {
 		}
 	}
 
+	// Simple traversals (can be modified for search functions)
+
+	// traverse in preorder
+	preorder(node) {
+		if (node !== null) {
+			// Visit root
+			console.log(node.data);
+			// Traverse the left subtree
+			this.preorder(node.left);
+
+			// Traverse the right subtree
+			this.preorder(node.right);
+		}
+	}
+
+	// traverse in inorder
+	inorder(node) {
+		if (node !== null) {
+			// Traverse the left subtree
+			this.inorder(node.left);
+			// Visit node
+			console.log(node.data);
+			// Traverse the right subtree
+			this.inorder(node.right);
+		}
+	}
+
+	// traverse in postorder
+	postorder(node) {
+		if (node !== null) {
+			// Traverse the left subtree
+			this.postorder(node.left);
+
+			// Traverse the right subtree
+			this.postorder(node.right);
+			// Visit root
+			console.log(node.data);
+		}
+	}
+
 	// BREADTH FIRST SEARCH
 	//
 	// Resembles movement of ripples in a pond
@@ -154,12 +194,23 @@ class BinaryTree {
 
 	// Morris traversal to find min and max (ie without recursion or stack)
 	// BEST Explanation: https://takeuforward.org/data-structure/morris-inorder-traversal-of-a-binary-tree/
-	// This version of Morris uses in-order traversal. (There are other versions ie preorder https://takeuforward.org/data-structure/morris-preorder-traversal-of-a-binary-tree/)
-	// NOTE: works for any binary tree (ie not just BSTs)
-	//
-	// Advantage: does not require recursion or stack
-	// Disadvantage: IS NOT THREAD-SAFE (multiple threads calling this function will lead to errors since the algo temporarily alters the links between nodes) ie not practical for real world use;
-	//
+	// BEST Image: https://miro.medium.com/v2/resize:fit:1400/1*0BJ6k8Qv4qKQYevAeI94Eg.png
+
+	// Essentially ensures that every node is visited
+	// 1. start traversing from root node
+	// 2. save a reference to any node that has a left child
+	// 3. make left subtree TEMPORARILY point back to the divergent node from left subtree's rightmode node
+	// 4. search the left subtree iteratively (NOTE: multiple cases of temp pointers can occur)
+	// 5. after single-node left subtree is searched, return to divergent node using temp pointer
+	// 5. 'undo' the left subtree's temp pointer to reflect original tree state
+
+	// This version of Morris uses in-order traversal. (There are other versions e.g. preorder https://takeuforward.org/data-structure/morris-preorder-traversal-of-a-binary-tree/)
+	// NOTE: works for ANY binary tree (not just BSTs)
+
+	// PRO: does not require recursion or stack
+
+	// CON: Is NOT thread-safe (multiple threads calling this function will lead to errors since the algo temporarily alters the links between nodes) ie not practical for real world use;
+
 	// Time complexity: O(n) - hits every node (at most 3 times each) => O(3n) = O(n)
 	// Space complexity: O(1) - no data structures or stack required
 
@@ -202,10 +253,11 @@ class BinaryTree {
 					max_value = Math.max(max_value, current.data);
 					min_value = Math.min(min_value, current.data);
 
+					// continue on to right subtree from divergent node
 					current = current.right;
-				} // End of if condition pre.right == null
-			} // End of if condition current.left == null
-		} // End of while
+				}
+			}
+		}
 
 		// Finally print max and min value
 		console.log("Max Value is : " + max_value);
@@ -220,44 +272,6 @@ class BinaryTree {
 	getRootNode() {
 		console.log("root node is:", this.root.data);
 		return this.root;
-	}
-
-	// traverse tree in preorder
-	preorder(node) {
-		if (node !== null) {
-			// Visit root
-			console.log(node.data);
-			// Traverse the left subtree
-			this.preorder(node.left);
-
-			// Traverse the right subtree
-			this.preorder(node.right);
-		}
-	}
-
-	// traverse tree in inorder
-	inorder(node) {
-		if (node !== null) {
-			// Traverse the left subtree
-			this.inorder(node.left);
-			// Visit node
-			console.log(node.data);
-			// Traverse the right subtree
-			this.inorder(node.right);
-		}
-	}
-
-	// traverse tree in postorder
-	postorder(node) {
-		if (node !== null) {
-			// Traverse the left subtree
-			this.postorder(node.left);
-
-			// Traverse the right subtree
-			this.postorder(node.right);
-			// Visit root
-			console.log(node.data);
-		}
 	}
 }
 

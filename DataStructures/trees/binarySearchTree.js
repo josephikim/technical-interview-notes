@@ -14,77 +14,26 @@ class BinarySearchTree {
 		this.root = null;
 	}
 
-	// DEPTH FIRST SEARCH
-	//
-	// There are different types of DFS (preorder, inorder, postorder) depending on the implementation.
-	// This implementation is preorder (most common DFS for binary trees) and it follows:
-	// 1. visit node first
-	// 2. walk left subtree
-	// 3. walk right subtree
-	depthFirstSearch(rootNode, searchData) {
-		if (!rootNode) {
+	// BINARY SEARCH  - Recursive
+
+	// search for a node of a BST with given data using recursive search function.
+	// This is similar to POST ORDER traversal but stops when we find the searchData
+	binarySearch(node, searchData) {
+		// if tree is empty return null
+		if (node === null) {
 			return null;
 		}
+		console.log("Current node is:", node.data);
 
-		if (rootNode.data === searchData) {
-			console.log("found it!");
-		} else {
-			return this.dfsPreorder(rootNode, searchData);
-		}
-	}
+		// if data is less than node's data, move left
+		if (searchData < node.data) return this.binarySearch(node.left, searchData);
+		// if data is greater than node's data, move right
+		if (searchData > node.data)
+			return this.binarySearch(node.right, searchData);
 
-	dfsPreorder(node, searchData) {
-		if (node) {
-			// check if node value matches
-			console.log("Current node is:", node.data);
-			if (node.data === searchData) {
-				console.log("Found it!");
-				return node;
-			}
-			// check left child
-			this.dfsPreorder(node.left, searchData);
-			// check right child
-			this.dfsPreorder(node.right, searchData);
-		}
-	}
-
-	// BREADTH FIRST SEARCH
-	//
-	// Resembles movement of ripples in a pond
-	// Often used to find SHORTEST PATH between two nodes
-
-	breadthFirstSearch(rootNode, searchData) {
-		// make a queue array
-		let queue = [];
-		// populate it with the node that will be the root of your search
-		queue.push(rootNode);
-
-		// search the queue until it is empty
-		while (queue.length > 0) {
-			// assign the top of the queue to variable currentNode
-			let currentNode = queue[0];
-			console.log("Current node is:" + currentNode.data);
-
-			// if currentNode is the node we're searching for, break & alert
-			// NOTE you don't have to return anything - or just return boolean if found.
-			if (currentNode.data === searchData) {
-				console.log("Found it!");
-				return;
-			}
-
-			// if currentNode has a left child node, add it to the queue.
-			if (currentNode.left !== null) {
-				queue.push(currentNode.left);
-			}
-
-			// if currentNode has a right child node, add it to the queue.
-			if (currentNode.right !== null) {
-				queue.push(currentNode.right);
-			}
-			// remove the currentNode from the queue.
-			queue.shift();
-		}
-		console.log("Sorry, no such node found :(");
+		// if data is equal to the node data, return node
+		console.log("found it!");
+		return node;
 	}
 
 	// helper method which creates a new node to
@@ -105,7 +54,7 @@ class BinarySearchTree {
 		}
 	}
 
-	// Helper method to insert a node in a tree
+	// Helper method to insert a node in a BST
 	//
 	// Method 1 - Use recursion over the tree to find the location to insert a node
 
@@ -240,63 +189,6 @@ class BinarySearchTree {
 		console.log("root node is:", this.root.data);
 		return this.root;
 	}
-
-	// traverse tree in preorder
-	preorder(node) {
-		if (node !== null) {
-			// Visit root
-			console.log(node.data);
-			// Traverse the left subtree
-			this.preorder(node.left);
-
-			// Traverse the right subtree
-			this.preorder(node.right);
-		}
-	}
-
-	// traverse tree in inorder
-	inorder(node) {
-		if (node !== null) {
-			// Traverse the left subtree
-			this.inorder(node.left);
-			// Visit node
-			console.log(node.data);
-			// Traverse the right subtree
-			this.inorder(node.right);
-		}
-	}
-
-	// traverse tree in postorder
-	postorder(node) {
-		if (node !== null) {
-			// Traverse the left subtree
-			this.postorder(node.left);
-
-			// Traverse the right subtree
-			this.postorder(node.right);
-			// Visit root
-			console.log(node.data);
-		}
-	}
-
-	// search for a node with given data using recursive search function.
-	// This is similar to POST ORDER traversal but stops when we find the searchData
-	search(node, searchData) {
-		// if tree is empty return null
-		if (node === null) {
-			return null;
-		}
-		console.log("Current node is:", node.data);
-
-		// if data is less than node's data, move left
-		if (searchData < node.data) return this.search(node.left, searchData);
-		// if data is greater than node's data, move right
-		if (searchData > node.data) return this.search(node.right, searchData);
-
-		// if data is equal to the node data, return node
-		console.log("found it!");
-		return node;
-	}
 }
 
 const bst = new BinarySearchTree();
@@ -320,7 +212,7 @@ bst.remove(9);
 console.log("new root", root);
 bst.preorder(root);
 // bst.getRootNode();
-// bst.search(bst.root, 19);
+// bst.binarySearch(bst.root, 19);
 // bst.breadthFirstSearch(bst.root, 7);
 // bst.breadthFirstSearch(bst.root, 19);
 // bst.depthFirstSearch(bst.root, 19);
