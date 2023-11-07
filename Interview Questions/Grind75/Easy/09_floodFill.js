@@ -29,7 +29,7 @@
 
 /***********************************/
 
-// Optimal solution
+// Recursive solution
 
 // Time complexity = worst case O(N) where N = m X n
 // Space complexity = O(1)
@@ -50,7 +50,7 @@ var floodFill = function (image, sr, sc, newColor) {
 	// If the original color is the same as new color, no operation is needed
 	if (originalColor === newColor) return image;
 
-	// Define the Depth-First Search function
+	// Define the recursive Depth-First Search function
 	let dfs = function (row, col) {
 		// If the pixel is out of the image boundaries or is not of original color, return
 		if (
@@ -122,7 +122,7 @@ var floodFill = function (image, sr, sc, newColor) {
 
 /***********************************/
 
-// Naive solution
+// Naive recursive solution
 
 // Time complexity = worst case O(4N + 4) => O(N) where N = m X n, because every pixel is checked along with its 4 neighbors
 // Space complexity = worst case O(N)

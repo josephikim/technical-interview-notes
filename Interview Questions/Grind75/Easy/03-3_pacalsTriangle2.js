@@ -57,10 +57,10 @@ var getRow = function (rowIndex) {
 
 // Time commplexity = O(n^2)
 // Auxiliary space = O(1) ie no structures needed to do calcs
-// Space complexity = O(1) but DEPENDS
-// Typically the answer array is not counted towards the space complexity if you are required to return a separate answer array. So if you are using just one answer array then the space complexity will be O(1) but if you are using two arrays then the space complexity will be O(N).
-//
-// create recursive function that generates a single cell by recursive calculations
+// Space complexity = O(1) but DEPENDS. Typically the answer array is not counted towards the space complexity if you are required to return a separate answer array. So if you are using just one answer array then the space complexity will be O(1) but if you are using two arrays then the space complexity will be O(N).
+
+// create recursive function that generates a single cell by getting results of the parent cells above it in the triangle
+
 // recurrence relation: f(i, j) = f(i−1, j−1) + f(i−1, j)
 // 		ie  f(2, 1) = f(1, 0) + f(1, 1)
 // base case: f(i, j) = 1 where j = 1 or j = i
@@ -83,4 +83,3 @@ var getRow = function (rowIndex) {
 	}
 	return row;
 };
-/***********************************/
