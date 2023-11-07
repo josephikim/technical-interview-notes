@@ -27,7 +27,7 @@
 
 // Time commplexity = O(n^2)
 // Auxiliary space = O(n) for nextRow arr
-// Space complexity = O(n)
+// Space complexity = O(n) if we count aux space
 
 // set result to [1] (case of n = 0)
 // loop through each n and calculate the next row from the perspective of 'parents' from prev row
@@ -53,9 +53,9 @@ var getRow = function (rowIndex) {
 
 /***********************************/
 
-// Recursive solution (NOT OPTIMAL => Stack overflow with large N)
+// Recursive solution (NOT OPTIMAL => no memoization means calcs get duplicated)
 
-// Time commplexity = O(n^2)
+// Time commplexity = T(generateCell) * n = 2^n/sqrt(n) * n = O(2^n * sqrt(n))
 // Auxiliary space = O(1) ie no structures needed to do calcs
 // Space complexity = O(1) but DEPENDS. Typically the answer array is not counted towards the space complexity if you are required to return a separate answer array. So if you are using just one answer array then the space complexity will be O(1) but if you are using two arrays then the space complexity will be O(N).
 
@@ -72,7 +72,7 @@ var getRow = function (rowIndex) {
 var getRow = function (rowIndex) {
 	let row = [];
 
-	// recursive function
+	// time complexity of one call to recursive function = O(2^n/sqrt(n))
 	var generateCell = function (row, col) {
 		if (row === 0 || col === 0 || row === col) return 1;
 		return generateCell(row - 1, col - 1) + generateCell(row - 1, col);
