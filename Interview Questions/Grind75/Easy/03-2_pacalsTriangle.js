@@ -28,7 +28,8 @@
 
 // Time commplexity = O(nRows * nCols (= nRows)) => O(n^2) worst case
 // 		Triangle has 1 + 2 + ... + n elements. This is arithmetic progression that sums to n*(n+1)/2, which is in O(n^2)
-// Space complexity = O(nRows) ie arr of length n
+// Space complexity = O(1) depending if u count aux space
+// Aux space = O(n)
 
 // for each row
 // 	 loop through each column
@@ -93,15 +94,42 @@ var generate = function (numRows) {
 
 /***********************************/
 
-// Note on recursive solution
-// Recursive solution is NOT EFFICIENT depending on implementation
+// Recursive solution 1 (MORE EFFICIENT than recursive solution 2 bc recursion generates whole row instead of single cell)
 
-// Time commplexity = O(2^n) += O(2n/sqrt(n))
-// Space complexity =
+// Time commplexity = O(N^2)
+//		each recursive call involves O(nRow) ie 1 + 2 + ... + n elements
+// 		This is arithmetic progression that sums to n*(n+1)/2, which is in O(n^2)
+// Auxiliary space = O(n) for temp array 'nextRow'
+// Space complexity = O(n) for max depth of recursive calls
 
-// create recursive function that generates a single cell by recursive calculations
-// loop through rows
-// 		for each row, loop through columsn and generate each cell
+// create recursive function that generates a single row
+// each row call loops throw nRow and uses result from prev recursion as argument
+
+function generatePascal(n) {
+	if (n <= 0) return 1;
+	return generateNextRow(generatePascal(n - 1));
+}
+
+function generateNextRow(lastRow) {
+	let nextRow = [];
+	nextRow.push(1);
+	for (let i = 0; i < lastRow.length - 1; i++) {
+		nextRow.push(lastRow[i] + lastRow[i + 1]);
+	}
+	nextRow.push(1);
+	return nextRow;
+}
+
+/***********************************/
+
+// Recursive solution 2 (LESS EFFICIENT)
+
+// Time commplexity = O(n * 2^n) = single call to 'generateCell' O(2^n/sqrt(n)) multiplied by n^2 (arithmetic summation ie n*(n+1)/2) in nested loops
+
+// Auxiliary space = O(n) for temp array 'row'
+// Space complexity = O(n) for max depth of recursion calls
+
+// 2 nested loops (rows & cols) with recursive function that generates a single cell of triangle
 
 // recurrence relation: f(i, j) = f(i−1, j−1) + f(i−1, j)
 // 		ie  f(2, 1) = f(1, 0) + f(1, 1)
@@ -111,9 +139,10 @@ var generate = function (numRows) {
  * @param {number} numRows
  * @return {number[][]}
  */
-var generateRecursive = function (numRows) {
+var generatePascal = function (numRows) {
 	let result = [];
 
+	// time complexity of one call to recursive function = O(2^n/sqrt(n))
 	var generateCell = function (row, col) {
 		if (row === 0 || col === 0 || row === col) return 1;
 		return generateCell(row - 1, col - 1) + generateCell(row - 1, col);

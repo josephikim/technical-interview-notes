@@ -1,129 +1,86 @@
-// Given the head of a singly linked list, reverse the list, and return the reversed list.
+// Given an integer rowIndex, return the rowIndexth (0-indexed) row of the Pascal's triangle.
+
+// In Pascal's triangle, each number is the sum of the two numbers directly above it as shown:
 
 // Example 1:
 
-// Input: head = [1,2,3,4,5]
-// Output: [5,4,3,2,1]
+// Input: rowIndex = 3
+// Output: [1,3,3,1]
 // Example 2:
 
-// Input: head = [1,2]
-// Output: [2,1]
+// Input: rowIndex = 0
+// Output: [1]
 // Example 3:
 
-// Input: head = []
-// Output: []
+// Input: rowIndex = 1
+// Output: [1,1]
 
 // Constraints:
 
-// The number of nodes in the list is the range [0, 5000].
-// -5000 <= Node.val <= 5000
+// 0 <= rowIndex <= 33
 
-// Follow up: A linked list can be reversed either iteratively or recursively. Could you implement both?
+// Follow up: Could you optimize your algorithm to use only O(rowIndex) extra space?
 
 /***********************************/
 
-// Iterative solution (optimal)
+// Iterative solution
 
-// Time commplexity = O(n) worst case
-// Space complexity = O(1) worst case
-//
-// loop through nodes, with curr and prev nodes
-// in each loop, REVERSE the linkage and attach to prev node
+// Time commplexity = O(n^2)
+// Auxiliary space = O(n) for nextRow arr
+// Space complexity = O(n)
+
+// set result to [1] (case of n = 0)
+// loop through each n and calculate the next row from the perspective of 'parents' from prev row
+// result gets updated as next row on each loop
 
 /**
- * Definition for singly-linked list.
- * function ListNode(val, next) {
- *     this.val = (val===undefined ? 0 : val)
- *     this.next = (next===undefined ? null : next)
- * }
+ * @param {number} rowIndex
+ * @return {number[]}
  */
-/**
- * @param {ListNode} head
- * @return {ListNode}
- */
-var reverseList = function (head) {
-	if (!head || !head.next) return head;
-	let prev = null;
-	let curr = head;
+var getRow = function (rowIndex) {
+	let result = [1];
 
-	while (curr) {
-		let next = curr.next; // set pointer to next
-		curr.next = prev; // reverse linkage from curr
-		// update pointers
-		prev = curr;
-		curr = next;
+	for (i = 0; i < rowIndex; i++) {
+		let nextRow = new Array(result.length + 1).fill(0);
+		for (j = 0; j < result.length; j++) {
+			nextRow[j] += result[j];
+			nextRow[j + 1] += result[j];
+		}
+		result = nextRow;
 	}
-	return prev; // prev points to the 'finished' list after each loop
+	return result;
 };
 
 /***********************************/
 
-// Iterative solution (naive)
+// Recursive solution (NOT OPTIMAL => Stack overflow with large N)
 
-// Time commplexity = O(n) worst case
-// Space complexity = O(1) worst case
+// Time commplexity = O(n^2)
+// Auxiliary space = O(1) ie no structures needed to do calcs
+// Space complexity = O(1) but DEPENDS
+// Typically the answer array is not counted towards the space complexity if you are required to return a separate answer array. So if you are using just one answer array then the space complexity will be O(1) but if you are using two arrays then the space complexity will be O(N).
 //
-// loop through nodes, set pointer to next node
-// update linkages and set next node as new head, then return new head
+// create recursive function that generates a single cell by recursive calculations
+// recurrence relation: f(i, j) = f(i−1, j−1) + f(i−1, j)
+// 		ie  f(2, 1) = f(1, 0) + f(1, 1)
+// base case: f(i, j) = 1 where j = 1 or j = i
 
 /**
- * Definition for singly-linked list.
- * function ListNode(val, next) {
- *     this.val = (val===undefined ? 0 : val)
- *     this.next = (next===undefined ? null : next)
- * }
+ * @param {number} rowIndex
+ * @return {number[]}
  */
-/**
- * @param {ListNode} head
- * @return {ListNode}
- */
-// var reverseList = function (head) {
-// 	if (!head || !head.next) return null;
-// 	let newHead = head;
-// 	let current = newHead;
+var getRow = function (rowIndex) {
+	let row = [];
 
-// 	while (current && current.next) {
-// 		let next = current.next; // this pointer will become new head
-// 		current.next = next.next; // set current.next to node after next
-// 		next.next = newHead; // set pointer.next to head (position 0)
-// 		newHead = next; // set pointer as new head
-// 	}
-// 	return newHead;
-// };
+	// recursive function
+	var generateCell = function (row, col) {
+		if (row === 0 || col === 0 || row === col) return 1;
+		return generateCell(row - 1, col - 1) + generateCell(row - 1, col);
+	};
 
+	for (j = 0; j <= rowIndex; j++) {
+		row.push(generateCell(rowIndex, j));
+	}
+	return row;
+};
 /***********************************/
-
-// Recusive solution
-
-// Time commplexity = O(N) worst case
-// Space complexity = O(N) worst case
-//
-// each recursion returns the head of a reversed linked list beginning at the 'final' node of original list
-// base case returns last node as 'rest' (ie beginning of reversed linked list)
-// in subsequent recursions, head will be pointing to the final node of 'rest'
-// 		update head.next (ie last node of rest) to point back to head, then set head.next to null
-//    this results in a reversed list one node longer, which you then return as 'rest'
-// once recursions are done, return final 'rest'
-
-/**
- * Definition for singly-linked list.
- * function ListNode(val, next) {
- *     this.val = (val===undefined ? 0 : val)
- *     this.next = (next===undefined ? null : next)
- * }
- */
-/**
- * @param {ListNode} head
- * @return {ListNode}
- */
-// var reverseList = function (head) {
-// 	if (!head || !head.next) {
-// 		// return last node as is
-// 		return head;
-// 	}
-// 	let rest = reverseList(head.next); // rest points to new reverse linked list starting at last node
-// 	head.next.next = head; // reverse linkage from head to final node of rest
-// 	head.next = null; // remove circular reference from head to final node of rest
-
-// 	return rest; // return rest ie updated reversed linked list
-// };
