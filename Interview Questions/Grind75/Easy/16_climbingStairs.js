@@ -17,30 +17,82 @@
 // 1. 1 step + 1 step + 1 step
 // 2. 1 step + 2 steps
 // 3. 2 steps + 1 step
- 
+
 // Constraints:
 
 // 1 <= n <= 45
 
 /***********************************/
 
-// Optimal solution
+// Iterative solution 1 (least memory)
 
-// Time complexity = O(N * M);  N = magazine.length, M = ransomNode.length
+// Time complexity = O(n)
 // Space complexity = O(1)
 
-// 
+// for a given n, Routes(n) = Routes(n-1) + Routes(n-2)
+// 'prev1' = Routes(n - 2) ie routes that led to target minus 2
+// 'prev2 = Routes(n - 1) ie routes that lead to target minus 1
+// on each loop, update 'prev1' and 'prev2' using a temp variable(follows fibonnaci sequence)
+// return final 'prev2'
 
 /**
  * @param {number} n
  * @return {number}
  */
-var climbStairs = function(n) {
-    let routes = 1
-		for (i = 0; i < n; i++) {
-      if routes + 1 < n; routes++;
-			if routes + 2 < n; routes++
-		}
-		return routes
+var climbStairs = function (n) {
+	if (n <= 2) return n;
+	let prev1 = 1;
+	let prev2 = 2;
+	for (i = 3; i <= n; i++) {
+		let temp = prev2;
+		prev2 = prev1 + prev2;
+		prev1 = temp;
+	}
+	return prev2;
+};
 
+/***********************************/
+
+// Iterative solution 2 (dynamic programming, but more memory)
+
+// Time complexity = O(n)
+// Space complexity = O(n)
+
+// same logic as above, but storing entire result set
+
+/**
+ * @param {number} n
+ * @return {number}
+ */
+var climbStairs = function (n) {
+	let dp = new Array(n + 1).fill(0);
+	dp[0] = 1;
+	dp[1] = 1;
+	for (i = 2; i <= n; i++) {
+		dp[i] = dp[i - 1] + dp[i - 2];
+	}
+	return dp[n];
+};
+
+/***********************************/
+
+// Recursive solution naive (involves duplicate calls for a given argument, can lead to stack overlow)
+
+// Time complexity = O(2^n)
+// Space complexity = O(1)
+
+/**
+ * @param {number} n
+ * @return {number}
+ */
+var climbStairs = function (n) {
+	if (n < 1) {
+		return -1;
+	} else if (n === 1) {
+		return 1;
+	} else if (n === 2) {
+		return 2;
+	} else {
+		return climbStairs(n - 1) + climbStairs(n - 2);
+	}
 };
