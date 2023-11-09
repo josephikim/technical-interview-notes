@@ -44,7 +44,7 @@
    2. Complete trees are the basis for heaps and priority queues.
 5. Balanced Binary Tree
    1. height is small relative to the number of nodes it has.
-   2. Typically means the height follows O(lg(n))O(lg(n)), where n is the number of nodes.
+   2. Typically means the height is Math.floor(logbase2(n)), where n is the number of nodes.
 6. Relating Height vs Number of Nodes
    1. call the total number of nodes in the tree n, and the height of the tree h
    2. log base2 of (n+1) = h
