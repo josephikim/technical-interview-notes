@@ -1,6 +1,6 @@
 # Tree Data Structure
 
-## Any Trees
+## Generic Trees
 
 1. Tree
    1. organizes values hierarchically as nodes (e.g. X inside Y inside Z)
