@@ -21,10 +21,75 @@
 
 /***********************************/
 
+// Iterative solution (optimal)
+
+// Time complexity = O(2N) = O(N)
+// Space complexity = O(52) = O(1)
+
+// NOTE: only one instance of a non-paired char is allowed in total length
+// init freq Set()
+// loop through s, push elements into Set
+// when a pair of a given character is found, delete the odd instance of that char from Set, then add 2 to length to signify that a pair has been found
+// after looping, if there are any remaining odd instances in Set (ie set.size is true), add 1 to length
+
+/**
+ * @param {string} s
+ * @return {number}
+ */
+var longestPalindrome = function (s) {
+	const pairs = new Set();
+	let length = 0;
+
+	for (let i = 0; i < s.length; i++) {
+		if (pairs.has(s[i])) {
+			// even number instance of given char has been found
+			pairs.delete(s[i]);
+			// we add 2 to length because a pair has been found
+			length += 2;
+		} else {
+			// note odd number instance of given char
+			pairs.add(s[i]);
+		}
+	}
+
+	// if any leftover odd number instances in set, we add 1 (only 1 odd instance is allowed in a palindrome)
+	if (pairs.size) {
+		length++;
+	}
+
+	return length;
+};
+
+// Same logic as above but using object instead of Set
+
+// /**
+//  * @param {string} s
+//  * @return {number}
+//  */
+// var longestPalindrome = function (s) {
+// 	let length = 0;
+// 	let obj = {};
+
+// 	for (let char of s) {
+// 		obj[char] = obj[char] ? obj[char] + 1 : 1;
+// 		if (obj[char] % 2 === 0) {
+// 			length += 2;
+// 		}
+// 	}
+// 	return s.length > length ? length + 1 : length;
+// };
+
+/***********************************/
+
 // Iterative solution (naive)
 
 // Time complexity = O(2N) = O(N)
 // Space complexity = O(52) = O(1)
+
+// init freq array length 52
+// loop through s and fill up freq array
+// loop through freq array and add up entries if even integer
+// allow max one odd number entry
 
 /**
  * @param {string} s
