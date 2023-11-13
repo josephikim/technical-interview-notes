@@ -22,6 +22,46 @@
 
 /***********************************/
 
+// Iterative solution (better)
+
+// Time complexity = O(n)
+// Space complexity = O(1)
+
+// NOTE: this solution will loop through entire array, but still O(n)
+// 1. instead of tracking total occurences of majority element, we just want to track how often an element occurs relative to a previous 'breakeven' point
+// 2. tracked element will update after every breakeven point
+// 3. Eg, for [1, 2, x, y, z], on the third element, we are at a breakevent point. Disregard previous elements and just start tracking occurences of 'x'
+// after looping entire array, return latest tracked element
+
+/**
+ * @param {number[]} nums
+ * @return {number}
+ */
+var majorityElement = function (nums) {
+	let sol = 0,
+		cnt = 0;
+	// For every element i in the array...
+	for (let i = 0; i < nums.length; i++) {
+		// If cnt is equal to zero, update sol as sol = i
+		if (cnt == 0) {
+			sol = nums[i];
+			cnt = 1;
+		}
+		// If i is equal to candidate, increment cnt...
+		else if (sol == nums[i]) {
+			cnt++;
+		}
+		// Otherwise, decrement cnt...
+		else {
+			cnt--;
+		}
+	}
+	// Return & print the solution...
+	return sol;
+};
+
+/***********************************/
+
 // Iterative solution (naive)
 
 // Time complexity =
