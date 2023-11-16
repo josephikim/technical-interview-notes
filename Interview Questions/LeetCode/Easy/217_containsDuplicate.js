@@ -48,6 +48,24 @@ var containsDuplicate = function (nums) {
 
 /***********************************/
 
+// Set-based solution 2
+
+// Time complexity = O(N) but longer on average than solution 1 above
+// Space complexity = O(N)
+
+// if a duplicate exists, nums.length will be greater than Set(nums)
+
+/**
+ * @param {number[]} nums
+ * @return {boolean}
+ */
+var containsDuplicate = function (nums) {
+	const set = new Set(nums);
+	return nums.length != set.size;
+};
+
+/***********************************/
+
 // Iterative solution (less space complexity)
 
 // Time complexity = O(N)
