@@ -29,14 +29,14 @@ LINKED LIST TYPES
 
 PROS
 
--Fast operations on the ends. Adding elements at either end of a linked list is O(1)O(1). Removing the first element is also O(1)O(1).
+-Fast operations on the ends. Adding elements at either end of a linked list is O(1). Removing the first element is also O(1).
 
 -Flexible size. There's no need to specify how many elements you're going to store ahead of time. You can keep adding elements as long as there's enough space on the machine.
 
 
 CONS
 
--Costly lookups. To access or edit an item in a linked list, you have to take O(i)O(i) time to walk from the head of the list to the iith item.
+-Costly lookups. To access or edit an item in a linked list, you have to take O(n) time to walk from the head of the list to the nth item.
 
 -Uses more memory than arrays because of the storage of the pointers.
 
