@@ -93,7 +93,7 @@ var containsDuplicate = function (nums) {
 
 // Iterative solution (naive)
 
-// Time complexity = O(N)
+// Time complexity = O(NlogN) due to sorting
 // Space complexity = O(N
 
 // base case if nums.legnth === 1, return false
