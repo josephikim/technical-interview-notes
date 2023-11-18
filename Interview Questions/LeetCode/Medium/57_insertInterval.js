@@ -27,54 +27,66 @@
 
 // Iterative solution (naive)
 
-// Time complexity =
-// Space complexity =
+// Time complexity = O(N)
+// Space complexity = O(1)
 
-// 1. find idx where new interval will be inserted (idx where a free space exists or where interval(s) will be replaced)
-// 2. if interval(s) need replacing, calc which intervals affected and what the replacement interval will be
-// 3. replace new interal where affected intervals were originally
-// 4. return updated array
+// 1. set base case (intervals.length === 0) return [newInterval];
+// 2. init l and r = 0, inserted flag = false
+// 3. create functions for check overlap(arr1, arr2) and merge(arr1, arr2)
+// 4. loop while inserted = false
+// 5. if no overlap at position l, slide window right 1 position
+// 6. if free space exists at l or at end of intervals, splice or push accordingly and set inserted = true
+// 7. if overlap found, merge newInterval with intervals[l]
+// 8. loop through remaining intervals while intervals[l] and intervals[r] overlap, merging them together and splicing into intervals[l]
+// 9. set inserted = true
+// 10. return updated intervals
 
 /**
  * @param {number[][]} intervals
  * @param {number[]} newInterval
  * @return {number[][]}
  */
+// same logic as above but with sliding window
 var insert = function (intervals, newInterval) {
-	let insertionIdx = 0;
+	if (intervals.length === 0) return [newInterval];
+	let l = 0;
+	let r = 1;
+	let inserted = false;
 
-	var merge = function (arr, interval, idx) {
-		return [
-			Math.min(arr[idx][0], interval[0]),
-			Math.max(arr[idx][1], interval[1]),
-		];
+	var overlaps = function (arr1, arr2) {
+		return (
+			(arr1[0] <= arr2[1] && arr1[0] >= arr2[0]) ||
+			(arr2[0] <= arr1[1] && arr2[0] >= arr1[0])
+		);
 	};
 
-	while (
-		insertionIdx < intervals.length &&
-		intervals[insertionIdx][1] < newInterval[0]
-	) {
-		insertionIdx++;
-	}
+	var merge = function (arr1, arr2) {
+		return [Math.min(arr1[0], arr2[0]), Math.max(arr1[1], arr2[1])];
+	};
 
-	if (insertionIdx >= intervals.length) {
-		// insert at end of intervals
-		intervals.push(newInterval);
-	} else if (newInterval[1] < intervals[insertionIdx][0]) {
-		// insert at free space in intervals
-		intervals.splice(insertionIdx, 0, newInterval);
-	} else {
-		// insert after merging
-		let merged = merge(intervals, newInterval, insertionIdx);
-		let mergedCount = 1;
-		while (
-			intervals[insertionIdx + mergedCount] &&
-			merged[1] >= intervals[insertionIdx + mergedCount][0]
-		) {
-			merged = merge(intervals, merged, insertionIdx + mergedCount);
-			mergedCount++;
+	while (!inserted) {
+		if (overlaps(newInterval, intervals[l])) {
+			// merge at overlap
+			intervals[l] = merge(intervals[l], newInterval);
+			while (intervals[r] && overlaps(intervals[l], intervals[r])) {
+				intervals.splice(l, 2, merge(intervals[l], intervals[r]));
+			}
+			inserted = true;
+		} else {
+			if (newInterval[0] < intervals[l][0]) {
+				// free space at position l
+				intervals.splice(l, 0, newInterval);
+				inserted = true;
+			} else {
+				if (!intervals[r]) {
+					// finished looping
+					intervals.push(newInterval);
+					inserted = true;
+				}
+			}
+			l = r;
+			r++;
 		}
-		intervals.splice(insertionIdx, mergedCount, merged);
 	}
 	return intervals;
 };
