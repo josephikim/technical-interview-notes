@@ -25,6 +25,104 @@
 
 /***********************************/
 
+// Iterative solution (improved)
+
+// Time complexity = O(N)
+// Space complexity = O(1) not counting result array
+
+// 1. set result array as [], i = 0
+// 2. loop through intervals, pushing non overlapping elements into result
+// 3. once overlap is hit, modify newInterval by merging with overlapping element, repeat until newInterval no longer overlaps
+// 4. pushing remaining elements into result array
+
+/**
+ * @param {number[][]} intervals
+ * @param {number[]} newInterval
+ * @return {number[][]}
+ */
+
+const insert = (intervals, newInterval) => {
+	let start = 0;
+	let end = 1;
+	let track = [];
+	let i = 0;
+
+	while (i < intervals.length && intervals[i][end] < newInterval[start]) {
+		track.push(intervals[i]);
+		i++;
+	}
+
+	while (i < intervals.length && intervals[i][start] <= newInterval[end]) {
+		// it overlaps if the end is greater than the start
+		newInterval[start] = Math.min(intervals[i][start], newInterval[start]);
+		newInterval[end] = Math.max(intervals[i][end], newInterval[end]);
+		i++;
+	}
+
+	track.push(newInterval);
+
+	while (i < intervals.length) {
+		track.push(intervals[i]);
+		i++;
+	}
+
+	return track;
+};
+
+// same logic as above but with one for...of loop
+
+/**
+ * @param {number[][]} intervals
+ * @param {number[]} newInterval
+ * @return {number[][]}
+ */
+// var insert = function(intervals, newInterval) {
+// 	let l = [];
+// 	let r = [];
+// 	for (let interval of intervals) {
+// 			let [s, e] = interval;
+// 			let [ns, ne] = newInterval;
+// 			if (e < ns) {
+// 					l.push(interval)
+// 			} else if (ne < s) {
+// 					r.push(interval)
+// 			} else {
+// 					newInterval = [Math.min(s, ns), Math.max(e, ne)]
+// 			}
+// 	}
+// 	return [...l, newInterval, ...r]
+// };
+
+// same logic as above but add elements after merge as a slice
+
+/**
+ * @param {number[][]} intervals
+ * @param {number[]} newInterval
+ * @return {number[][]}
+ */
+// var insert = function(intervals, newInterval) {
+// 	if(!intervals || !intervals.length) return [newInterval];
+
+// 	const result = [];
+// 	let i = 0;
+
+// 	while(i < intervals.length && newInterval[0] > intervals[i][1]){
+// 			result.push(intervals[i++])
+// 	}
+
+// 	while(i < intervals.length && newInterval[1] >= intervals[i][0]){
+// 			newInterval[0] = Math.min(newInterval[0], intervals[i][0]);
+// 			newInterval[1] = Math.max(newInterval[1], intervals[i][1])
+// 			i += 1;
+// 	}
+
+// 	result.push(newInterval, ...intervals.slice(i));
+
+// 	return result;
+// };
+
+/***********************************/
+
 // Iterative solution (naive)
 
 // Time complexity = O(N)
