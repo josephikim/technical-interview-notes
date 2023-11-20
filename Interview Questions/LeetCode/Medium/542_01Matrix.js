@@ -22,7 +22,8 @@
 
 /***********************************/
 
-// Iterative solution (using queue to update non-zero squares beginning from zero squares) DOES NOT USE RECURSION OR DFS
+// Iterative solution
+// This is a BFS approach (NOT RECURSIVE) using a queue to track squares from where we need to update neighbor. Init the queue with squares having value = 0.
 
 // Time complexity = O(N)
 // Space complexity = O(N) for queue
@@ -63,11 +64,15 @@ var updateMatrix = function (mat) {
 	];
 	for (const [r, c] of queue) {
 		directions.forEach(([dx, dy]) => {
-			if (0 <= r + dy && r + dy < rows && 0 <= c + dx && c + dx < cols) {
-				if (mat[r + dy][c + dx] === -1) {
-					mat[r + dy][c + dx] = mat[r][c] + 1;
-					queue.push([r + dy, c + dx]);
-				}
+			if (
+				0 <= r + dy &&
+				r + dy < rows &&
+				0 <= c + dx &&
+				c + dx < cols &&
+				mat[r + dy][c + dx] === -1
+			) {
+				mat[r + dy][c + dx] = mat[r][c] + 1;
+				queue.push([r + dy, c + dx]);
 			}
 		});
 	}
@@ -76,6 +81,7 @@ var updateMatrix = function (mat) {
 };
 
 // Recursive solution (naive - leads to TLE error)
+// This is akin to a DFS, but better approach would be like BFS (see solution above)
 
 // Time complexity = O()
 // Space complexity =
