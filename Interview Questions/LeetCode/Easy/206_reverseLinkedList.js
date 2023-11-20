@@ -118,7 +118,7 @@ var reverseList = function (head) {
  */
 // var reverseList = function (head) {
 // 	if (!head || !head.next) {
-// 		// return last node as is
+// 		// return node as is
 // 		return head;
 // 	}
 // 	let rest = reverseList(head.next); // rest points to new reverse linked list starting at last node
