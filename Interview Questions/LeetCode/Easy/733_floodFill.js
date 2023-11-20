@@ -122,6 +122,52 @@ var floodFill = function (image, sr, sc, newColor) {
 
 /***********************************/
 
+// BFS Iterative solution
+
+// Time complexity = O(N) => N = m x n
+// Space complexity = O(N) for queue
+
+// 1. check base case where old color equals new color at (sr, sc)
+// 2. init a queue with (sr, sc)
+// 3. pull first element from queue, update matrix's color at element's coordinates
+// 4. check each 4-directional neighbor. if neighbor has old color, push neighbor's coordinates to queue
+// 5. repeat steps 3 and 4 until queue is empty
+// 6. return result image
+
+/**
+ * @param {number[][]} image
+ * @param {number} sr
+ * @param {number} sc
+ * @param {number} color
+ * @return {number[][]}
+ */
+var floodFill = function (image, sr, sc, color) {
+	const oldColor = image[sr][sc];
+	if (oldColor == color) return image;
+	const queue = [{ sr, sc }];
+
+	while (queue.length > 0) {
+		const c = queue.shift();
+		image[c.sr][c.sc] = color;
+
+		const up = c.sr - 1,
+			down = c.sr + 1;
+		const left = c.sc - 1,
+			right = c.sc + 1;
+		if (up >= 0 && image[up][c.sc] == oldColor)
+			queue.push({ sr: up, sc: c.sc });
+		if (down < image.length && image[down][c.sc] == oldColor)
+			queue.push({ sr: down, sc: c.sc });
+		if (left >= 0 && image[c.sr][left] == oldColor)
+			queue.push({ sr: c.sr, sc: left });
+		if (right < image[0].length && image[c.sr][right] == oldColor)
+			queue.push({ sr: c.sr, sc: right });
+	}
+	return image;
+};
+
+/***********************************/
+
 // Naive recursive solution
 
 // Time complexity = worst case O(4N + 4) => O(N) where N = m X n, because every pixel is checked along with its 4 neighbors

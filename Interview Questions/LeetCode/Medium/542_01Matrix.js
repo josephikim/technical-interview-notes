@@ -23,7 +23,7 @@
 /***********************************/
 
 // Iterative solution
-// This is a BFS approach (NOT RECURSIVE) using a queue to track squares from where we need to update neighbor. Init the queue with squares having value = 0.
+// This is a BFS approach (NOT RECURSIVE) using a queue to track squares from where we need to update neighbors. Init the queue with squares having value = 0.
 
 // Time complexity = O(N)
 // Space complexity = O(N) for queue
