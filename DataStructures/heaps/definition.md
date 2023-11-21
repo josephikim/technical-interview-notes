@@ -252,13 +252,13 @@ Since we are using Javascript, we need to use an array-implementation of a heap.
 
 **Runtime**
 
--Array-based heapify function: O(log(n))
+1. Array-based heapify (see percolateDown() above) function: O(log(n))
+2. Heapify O(log(n)) each of n elements in the array: O(n * log(n))
+3. Remove k - 1 elements, and heapify each time: O(k * log(n)).
 
--Heapify O(log(n)) each of n elements in the array: O(n * log(n))
+Note: Step 3 is required because Heapifying all n elements doesn't necessarily provide a fully sorted array (it only fulfills the heap condition implying that the first array element will be the smallest overall). Thus to find the k smallest overall elements in order, we need to pop the first element in the heapified array (the smallest overall element), then perform heapify again on the first remaining element to get the second overall smallest element, et cetera.
 
--Remove k - 1 elements, and heapify each time: O(k * log(n))
-
-Total: O(nlog(n))
+Total: O(nklog(n))
 
 Note: You could achieve a lower runtime of O(nlog(k)) if you were to perhaps implement the heap with a max_size and polling functionality, but this isn't necessary. Always communicate with your interviewer about stuff like this, maybe they will even allow you to assume the function already exists and can be used without defining it.
 
@@ -303,21 +303,21 @@ Sorting k arrays by their first element will take O(klog(k)) time on average. O(
 
 You are doing this for each n elements. Worst-case scenario would be where all k arrays had an equal amount of elements. Best-case would be where there’s only 1 array with n elements.
 
-So your total runtime will be O(nklog(k)) average, O(nk^2) worst case, O(n) best case (just one array).
+Total: O(nklog(k)) average, O(nk^2) worst case, O(n) best case (just one array).
 
 **Space**
 
-Additional space complexity will be coming from the Quicksort: O(log(k)).
+Total: O(log(k)) from Quicksort
 
 2. Solution using heaps
 
 **Runtime**
 
-With a heap, everytime you heapify the k arrays, it will take O(log(k)) time.
+Everytime you heapify the k arrays, it will take O(log(k)) time.
 
-You will need to do this for each element in the k arrays.
+You will need to do this for each of n element in the k arrays.
 
-So the average runtime will be O(nlog(k)). Best-case O(n) (just one array).
+Total: O(nlog(k)) average, best-case O(n) (just one array).
 
 **Space**
 
