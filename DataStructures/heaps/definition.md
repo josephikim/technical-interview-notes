@@ -48,7 +48,7 @@ function heappush(heap, newKey){
  // keep comparing till root is reached or we terminate in middle
   while(curr > 0){
     let parent = Math.floor((curr-1)/2)
-    if( heap[curr] < heap[parent] ){
+    if(heap[curr] < heap[parent]){
       // quick swap
       [ heap[curr], heap[parent] ] = [ heap[parent], heap[curr] ]
       // update the index of newKey
@@ -74,7 +74,7 @@ function heappop(heap){
   while(2*curr + 1 < heap.length){
     const leftIndex = 2*curr+1; 
     const rightIndex = 2*curr+2;
-    const minChildIndex = (rightIndex < heap.length && heap[rightIndex] < heap[leftIndex] ) ? rightIndex :leftIndex;
+    const minChildIndex = (rightIndex < heap.length && heap[rightIndex] < heap[leftIndex]) ? rightIndex :leftIndex;
     if(heap[minChildIndex] < heap[curr]){
      // quick swap, if smaller of two children is smaller than the parent (min-heap)
       [heap[minChildIndex], heap[curr]] = [heap[curr], heap[minChildIndex]]
@@ -113,7 +113,7 @@ function percolateDown(heap, index) {
   while(2*curr + 1 < heap.length){
     const leftIndex = 2*curr+1; 
     const rightIndex = 2*curr+2;
-    const minChildIndex = (rightIndex < heap.length && heap[rightIndex] < heap[leftIndex] ) ? rightIndex :leftIndex;
+    const minChildIndex = (rightIndex < heap.length && heap[rightIndex] < heap[leftIndex]) ? rightIndex :leftIndex;
     if(heap[minChildIndex] < heap[curr]){
      // quick swap, if smaller of two children is smaller than the parent (min-heap)
       [heap[minChildIndex], heap[curr]] = [heap[curr], heap[minChildIndex]]
@@ -195,3 +195,130 @@ for(let el of x) heappush(heap, -el);
 // max value
 const max = -heappop(heap)
 ```
+
+## Performance Advantages
+
+You can solve many interview problems without using a heap.
+
+But there are questions where using a heap will get you the optimal runtime and space complexity, which is why there is such an advantage to using it.
+
+### Kth Smallest Element in a Sorted Matrix (Leetcode 378)
+
+Given a n x n matrix where each of the rows and columns are sorted in ascending order, find the kth smallest element in the matrix.
+
+Note that it is the kth smallest element in the sorted order, not the kth distinct element.
+
+matrix = [
+   [ 1,  5,  9],
+   [10, 11, 13],
+   [12, 13, 15]
+],
+
+k = 8,
+return 13
+
+1. Solution without heaps
+
+You could simply solve this by putting all the elements into an array, sorting it and returning the element at the kth index.
+
+Sorted Array: [1,5,9,10,11,12,13,13,15]
+Index to return: array.length - k
+
+But what is your space and runtime complexity?
+
+**Runtime**
+   
+-Quicksort: O(nlog(n)) average, O(n^2) worst case
+-Accessing k-th index: O(1)
+
+Total: O(nlog(n)) average, O(n^2) worst case
+
+**Space**
+   
+-Quicksort: O(log(n)) average
+-Constructing the final sorted array: O(n)
+
+Total: O(n)
+
+Note 1: Javascript V8 Engine (runs on Google Chrome, Node, etc) uses quicksort
+
+Note 2: Quicksort partitions the array and calls itself recursively, which adds to the space (stack) complexity.
+
+2. Solution using heaps
+
+Now, let’s compare against the heap solution. What are the runtimes & space if you were to use a heap?
+
+Since we are using Javascript, we need to use an array-implementation of a heap.
+
+**Runtime**
+
+-Array-based heapify function: O(log(n))
+
+-Heapify O(log(n)) each of n elements in the array: O(n * log(n))
+
+-Remove k - 1 elements, and heapify each time: O(k * log(n))
+
+Total: O(nlog(n))
+
+Note: You could achieve a lower runtime of O(nlog(k)) if you were to perhaps implement the heap with a max_size and polling functionality, but this isn't necessary. Always communicate with your interviewer about stuff like this, maybe they will even allow you to assume the function already exists and can be used without defining it.
+
+**Space**
+
+-Constructing the initial un-heapified array: O(n)
+
+-Heapify in-place: O(1)
+
+Total: O(n)
+
+For this question, there isn’t a strong incentive to use heaps besides avoiding that worst-case runtime of O(n^2). 
+
+Anyways, you might be thinking “This is not very useful”. Let’s move on to a question where the difference is substantial.
+
+### Merge k Sorted Lists (Leetcode 23)
+
+Merge k sorted linked lists and return it as one sorted list. Analyze and describe its complexity.
+
+Input:
+[
+  1->4->5,
+  1->3->4,
+  2->6
+]
+
+Output: 1->1->2->3->4->4->5->6
+
+1. Solution without heaps
+
+Without using a heap, you could solve this question by sorting each array by their first element, in ascending order.
+
+Then you pop the first element from the first array and add it to your output.
+
+You do this each time you pop an element and add it to your output.
+
+**Runtime**
+
+There are k arrays and n elements.
+
+Sorting k arrays by their first element will take O(klog(k)) time on average. O(k^2) worst case.
+
+You are doing this for each n elements. Worst-case scenario would be where all k arrays had an equal amount of elements. Best-case would be where there’s only 1 array with n elements.
+
+So your total runtime will be O(nklog(k)) average, O(nk^2) worst case, O(n) best case (just one array).
+
+**Space**
+
+Additional space complexity will be coming from the Quicksort: O(log(k)).
+
+2. Solution using heaps
+
+**Runtime**
+
+With a heap, everytime you heapify the k arrays, it will take O(log(k)) time.
+
+You will need to do this for each element in the k arrays.
+
+So the average runtime will be O(nlog(k)). Best-case O(n) (just one array).
+
+**Space**
+
+Space complexity will be O(k) or O(1), depending on how you implement the heap. You could do everything in-place to reach O(1) but it’s a lot of work and your interviewer may not see it as being necessary. So, just make sure you are able to talk about how you could implement it using O(1) space.
