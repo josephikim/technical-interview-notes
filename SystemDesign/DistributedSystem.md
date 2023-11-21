@@ -51,26 +51,28 @@ The more widely your system is distributed, the more latency you can experience 
 ## Observability
 
 Gathering, processing, presenting, and monitoring hardware usage metrics for large clusters is a significant challenge.
-How a Distributed System Works
-Hardware and software architectures are used to maintain a distributed system. Everything must be interconnected—CPUs via the network and processes via the communication system.
 
-# Types of distributed systems
+# How a Distributed System Works
+
+Hardware and software architectures are used to maintain a distributed system. Everything must be interconnected: CPUs via the network and processes via the communication system.
+
+## Types of distributed systems
 
 Distributed systems generally fall into one of four different basic architecture models:
 
-## Client-server
+### Client-server
 
 Clients contact the server for data, then format it and display it to the end-user. The end-user can also make a change from the client-side and commit it back to the server to make it permanent.
 
-## Three-tier
+### Three-tier
 
 Information about the client is stored in a middle tier rather than on the client to simplify application deployment. This architecture model is most common for web applications.
 
-## n-tier
+### n-tier
 
 Generally used when an application or server needs to forward requests to additional enterprise services on the network.
 
-## Peer-to-peer
+### Peer-to-peer
 
 There are no additional machines used to provide services or manage resources. Responsibilities are uniformly distributed among machines in the system, known as peers, which can serve as either client or server.
 
@@ -78,9 +80,11 @@ There are no additional machines used to provide services or manage resources. R
 
 Distributed systems have endless use cases, a few being electronic banking systems, massive multiplayer online games, and sensor networks.
 
+## Content Delivery Network (CDN)
+
 StackPath utilizes a particularly large distributed system to power its content delivery network service. Every one of our points of presence (PoPs) has nodes that form a worldwide distributed system. And to provide top notch content delivery, StackPath stores the most recently and frequently requested content in edge locations closest to the location it is being used.
 
-Distributed systems at the edge
+## Distributed systems at the edge
 
 With StackPath’s edge-compute services, virtual machines, and containers, users can create their own distributed systems. By interconnecting VMs and containers, while also leveraging the speed and agility that comes with edge computing, your system can handle thousands of simultaneous requests at lightning-fast speed.
 
@@ -88,4 +92,4 @@ With StackPath’s edge-compute services, virtual machines, and containers, user
 
 1. Distributed systems can be made up of any machine capable of connecting to a network, having local memory, and communicating by passing messages.
 2. By spreading out requests and workloads, distributed systems can support far more requests and compute jobs than a standard single system.
-3. You can create your own lightning-fast distributed system by interconnecting StackPath’s edge computing containers and virtual machines.
+3. You can create your own lightning-fast distributed system by interconnecting edge computing containers and virtual machines.

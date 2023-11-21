@@ -28,8 +28,8 @@
    2. MOST COMMON METHOD when walking a Binary SEARCH Trees (a 'sorted' binary tree) (bc is hits the nodes in the same order as the node values are sorted)
    3. For BST's, 'walk' means visit the nodes in ascending order of the node VALUES not node position <https://www.interviewcake.com/concept/python/tree?#balanced>
 10. Post Order Traversal
-    1. Walk the left subtree, then the right subtree, and finally visit the current node
-    2. This one is rarely used
+   1. Walk the left subtree, then the right subtree, and finally visit the current node
+   2. This one is rarely used
 
 ## Binary Trees
 
@@ -41,7 +41,7 @@
    2. n = 2^(n+1) - 1
 4. Complete Binary Tree
    1. Like a perfect binary tree missing a few nodes in the last level. Nodes are filled in from left to right.
-   2. Complete trees are the basis for heaps and priority queues.
+   2. Complete binary trees are the basis for heaps and priority queues.
 5. Balanced Binary Tree
    1. height is small relative to the number of nodes it has.
    2. Typically means the height is Math.floor(logbase2(n)), where n is the number of nodes.
