@@ -27,6 +27,93 @@
 
 /***********************************/
 
+// Iterative solution (quick select)
+
+// Time complexity = O(N) on average
+// Space complexity = O(1) if not counting result array
+
+// Uses a quick select algorithm to rearrange points around the kth selection which guarantees:
+// 1. all elements to the left of points[k] have smaller Euclidean distances than points[k]
+// 2. points[k] has a smaller Euclidean distance than all elements to the right of points[k]
+
+/**
+ * @param {number[][]} points
+ * @param {number} k
+ * @return {number[][]}
+ */
+var quickSelect = function (points, k) {
+	let left = 0,
+			right = points.length - 1;
+	let pivotIndex = points.length;
+	while (pivotIndex !== k) {
+			// Repeatedly partition the array
+			// while narrowing in on the kth element
+			pivotIndex = partition(points, left, right);
+			if (pivotIndex < k) {
+					left = pivotIndex;
+			} else {
+					right = pivotIndex - 1;
+			}
+	}
+
+	// Return the first k elements of the partially sorted array
+	return points.slice(0, k);
+};
+
+var partition = function (points, left, right) {
+	let pivot = chooseMidPivot(points, left, right);
+	let pivotDist = squaredDistance(pivot);
+	while (left < right) {
+			// Iterate through the range and swap elements to make sure
+			// that all points closer than the pivot are to the left
+			if (squaredDistance(points[left]) >= pivotDist) {
+					[points[left], points[right]] = [points[right], points[left]];
+					right--;
+			} else {
+					left++;
+			}
+	}
+
+	// Ensure the left pointer is just past the end of
+	// the left range then return it as the new pivotIndex
+	if (squaredDistance(points[left]) < pivotDist) {
+			left++;
+	}
+
+	return left;
+};
+
+// Choose a pivot element of the array
+// the unsigned bitshift has the effect of dividing by 2 and discarding any remainder
+const chooseMidPivot = (points, left, right) =>
+	points[left + ((right - left) >> 1)];
+
+// Calculate and return the squared Euclidean distance
+const squaredDistance = ([x, y]) => x ** 2 + y ** 2;
+
+/***********************************/
+
+// Iterative solution (improved)
+
+// Time complexity = O(NlogN) due to sorting
+// Space complexity = O(1) if not counting result array
+
+// same logic as solution below but with less space complexity	
+
+/**
+ * @param {number[][]} points
+ * @param {number} k
+ * @return {number[][]}
+ */
+var kClosest = function(points, k) {
+	return points.sort((a, b) => getLength(a) - getLength(b)).slice(0, k);
+};
+var getLength = function([a, b]) {
+	return (a * a) + (b * b);
+}
+
+/***********************************/
+
 // Iterative solution (naive)
 
 // Time complexity = O(NlogN) due to sorting
