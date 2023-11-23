@@ -93,6 +93,70 @@ const squaredDistance = ([x, y]) => x ** 2 + y ** 2;
 
 /***********************************/
 
+// Iterative solution (heapify)
+
+// Time complexity = O(N) on average
+// Space complexity = O(1) if not counting result array
+
+// Uses a custom built min heap algorithm to find and remove the element with the smallest Euclidean distance on each iteration of heapify
+// Note: this does not result in a sorted list of k elements, just a collection of k-smallest elements
+
+/**
+ * @param {number[][]} points
+ * @param {number} k
+ * @return {number[][]}
+ */
+var kClosest = function(points, k) {
+	// solution with imported datastructures library
+	// let ans = [];
+	// let heap = new PriorityQueue({compare:isCloserCompare});
+	// for (point of points)
+	//     heap.enqueue(point);
+	// for (let i = 0; i < k; ++i)
+	//     ans.push(heap.dequeue())
+	// return ans;
+	// solution for custom built heap
+	let ans = [];
+	// build heap
+	// start loop at the last possible parent node
+	for (let i = Math.trunc(points.length/2)-1; i >= 0; --i)
+			heapify(points, i);
+	for (let i = 0; i < k; ++i)
+			ans.push(popMin(points));
+	return ans;
+};
+
+// returns if p1 is closer to origin than p2
+const isCloser = (p1, p2) => (p1[0]*p1[0]+p1[1]*p1[1]) < (p2[0]*p2[0]+p2[1]*p2[1]);
+const isCloserCompare = (p1, p2) => (p1[0]*p1[0]+p1[1]*p1[1]) - (p2[0]*p2[0]+p2[1]*p2[1]);
+
+const popMin = (heap) => {
+	const min = heap[0];
+	heap[0] = heap.pop();
+	heapify(heap, 0);
+	return min;
+}
+
+const heapify = (points, i) => {
+	// min heap (where min means closer to origin), heapify down implementation
+	while (i*2+1 < points.length) {
+			let child = i*2+1;
+			// choose the smaller of the children
+			if (child < points.length - 1 && !isCloser(points[child], points[child+1]))
+					++child;
+			if (isCloser(points[child], points[i])) {
+					const tmp = points[i];
+					points[i] = points[child];
+					points[child] = tmp;
+					i = child;
+			} else {
+					break;
+			}
+	}
+}
+
+/***********************************/
+
 // Iterative solution (improved)
 
 // Time complexity = O(NlogN) due to sorting
