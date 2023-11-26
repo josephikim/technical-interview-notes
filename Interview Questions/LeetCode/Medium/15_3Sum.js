@@ -34,19 +34,74 @@
 
 /***********************************/
 
+// Iterative solution (improved)
+
+// Time complexity = O(nlogn) => n = nums.length
+// Note: Complexity is not O(n^2) bc inner while loop does not loop through n elements for every element in nums. Instead, there is an additional constant amount for work for each element so its actually O(n) + sigma summation of n (ie (n^2 + n)/2) which is a constant number, thus overall complexity is O(n). Also, the initial sorting happens once so only adds a constance amount of time to overall complexity.
+// Space complexity = O(1) depending if you count result array
+
+// Algorithm
+// The key is to deconstruct the three-sum problem to iterations of the two-sum problem (ie Leetcode 1).
+// This can be made more efficient by sorting nums before looping. This is ok because the solution will consists of values in nums, not indices.
+
+// 1. sort nums numerically, init solutions array
+// 2. Loop through nums starting at i = 0
+// 3. starting at the second element, if nums[i] equals nums[i-1], skip that loop
+// 4. Else, for each i, get the possible unique twoSum solutions for the array from i + 1 to nums.length -1.
+// 5. For each twoSum solution s, push the triplet [nums[i], s[0], s[1]] to solutions array
+
+/**
+ * @param {number[]} nums
+ * @return {number[][]}
+ */
+var threeSum = function (nums) {
+	nums.sort((a, b) => a - b);
+	let solutions = [];
+
+	// loop through each element in nums
+	for (i = 0; i < nums.length - 1; i++) {
+		// enforce uniqueness by skipping duplicates in nums[i]
+		if (i > 0 && nums[i] == nums[i - 1]) continue;
+
+		let target = nums[i] !== 0 ? -nums[i] : 0;
+
+		// get the twoSum solutions starting at i + 1 and push unique triplets to solutions array
+		let j = i + 1;
+		let k = nums.length - 1;
+
+		// enforce uniqueness by skipping duplicates in nums[j] or nums[k]
+		while (j < k) {
+			let sum = nums[j] + nums[k];
+			if (target === sum) {
+				solutions.push([nums[i], nums[j], nums[k]]);
+				j++;
+				k--;
+				while (nums[j] == nums[j - 1]) j++;
+				while (nums[k] == nums[k + 1]) k--;
+			} else if (target > sum) {
+				j++;
+				while (nums[j] == nums[j - 1]) j++;
+			} else {
+				k--;
+				while (nums[k] == nums[k + 1]) k--;
+			}
+		}
+	}
+	return solutions;
+};
+/***********************************/
+
 // Iterative solution (naive)
 
-// Time complexity =
+// Note: This is NOT A WORKING SOLUTION due to stack overflow. Storing every possible combination of indices in nums and their complement is not efficient. This code in included just for analysis purposes.
+
+// Time complexity = greater than O(n)
 // Space complexity =
 
 // Algorithm
-// for any given value in nums, we want unique combinations of two other values in nums that add up to the complement
-// Those unique combinations should be tracked along with the complement value
-// Strat 1: track the three values in 2 nested objects, with value1 as outer object key, value2 as inner object key and the complement as the inner object's value
-
-// 1. loop through nums using l and r pointers
-// 2. create a map with key being array of indices [i1, i2] and value being the complement to the sum of values at the given indices
-// 3.
+// For any combination of two indices in nums, store their complement value in a JS map with the complement as key, and indices as an array value.
+// Anytime the current index lands on a value that matches a key in map, create a triple using the key and elements in nums that correspond the indices in mapped value(s). Add this to potential solutions.
+// Once finished looping, filter solutions for unique solutions.
 
 /**
  * @param {number[]} nums
@@ -55,21 +110,30 @@
 var threeSum = function (nums) {
 	// checks if candidate solution is unique from existing solutions
 	var isUniqueSolution = function (solutions, arr) {
-		let str = arr.sort().join();
+		let str = arr.sort((a, b) => a - b).join();
 		return !solutions.some((solution) => {
-			return solution == arr;
+			return solution.sort((a, b) => a - b).join() === arr;
 		});
 	};
 
 	let i = 0,
 		j = 1;
 	// object of tuples of indices, keyed by complement value
-	let comps = new Set();
+	let map = {};
 	let solutions = [];
 	// check all combinations of indices
 	for (i = 0; i < nums.length - 1; i++) {
 		for (j = i + 1; j < nums.length; j++) {
-			if (comps.has(nums[i])) {
+			let comp = nums[i] + nums[j] !== 0 ? -(nums[i] + nums[j]) : 0;
+			// push indices to map
+			if (!map[complement]) {
+				map[complement] = [[i, j]];
+			} else {
+				map[complement] = [...map[complement], [i, j]];
+			}
+
+			// if complement exists in nums, its mapped indices are unique from the index of complement, and the triplet is a unique solution, push triplet to solutions
+			if (map[nums[i]]) {
 				map[nums[i]].forEach((tuple) => {
 					if (
 						i !== tuple[0] &&
@@ -80,40 +144,9 @@ var threeSum = function (nums) {
 							nums[tuple[1]],
 						])
 					)
-						solutions.push(
-							[nums[i], nums[tuple[0]], nums[tuple[1]]].sort().join()
-						);
+						solutions.push([nums[i], nums[tuple[0]], nums[tuple[1]]]);
 				});
 			}
-
-			let comp = nums[i] + nums[j] !== 0 ? -(nums[i] + nums[j]) : 0;
-
-			comps.add(comp);
-			// push indices to map
-			// if (!map[complement]) {
-			// 	map[complement] = [[i, j]];
-			// } else {
-			// 	map[complement] = [...map[complement], [i, j]];
-			// }
-
-			// if complement exists in nums, its mapped indices are unique from the index of complement, and the triplet is a unique solution, push triplet to solutions
-
-			// if (map[nums[i]]) {
-			// 	map[nums[i]].forEach((tuple) => {
-			// 		if (
-			// 			i !== tuple[0] &&
-			// 			i !== tuple[1] &&
-			// 			isUniqueSolution(solutions, [
-			// 				nums[i],
-			// 				nums[tuple[0]],
-			// 				nums[tuple[1]],
-			// 			])
-			// 		)
-			// 			solutions.push(
-			// 				[nums[i], nums[tuple[0]], nums[tuple[1]]].sort().join()
-			// 			);
-			// 	});
-			// }
 			if (map[nums[j]]) {
 				map[nums[j]].forEach((tuple) => {
 					if (
@@ -125,12 +158,10 @@ var threeSum = function (nums) {
 							nums[tuple[1]],
 						])
 					)
-						solutions.push(
-							[nums[j], nums[tuple[0]], nums[tuple[1]]].sort().join()
-						);
+						solutions.push([nums[j], nums[tuple[0]], nums[tuple[1]]]);
 				});
 			}
 		}
 	}
-	return solutions.map((solution) => solution.split(","));
+	return solutions;
 };
