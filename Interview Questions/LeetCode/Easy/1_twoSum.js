@@ -31,13 +31,12 @@
 
 // Iterative solution (sorted array with two pointers)
 
-// Note: ONLY works for sorted array. If input is possibly unsorted, it would be more complex bc we have to map indices from unsorted to sorted to recover solution indices from original input array. In that case try map-based solutions below.
+// Note: ONLY WORKS FOR SORTED ARRAY (which would allow O(n)). If input is unsorted, it adds complexity bc we have to use sort() or toSorted() on original array and also recover indices from original array accounting for duplicate values. Consider using map-based solutions below for a O(n) solution given unsorted input array.
 
 // Time complexity = O(n)
-// Space complexity = O(n) for sorted array
+// Space complexity = O(n)
 
-// Algo
-// 0. Sort nums in increasing order
+// Algo (assuming sorted array)
 // 1. Init i at 0 and j at end
 // 2. check sum against target
 // 3. if found, return result
@@ -45,12 +44,10 @@
 // 5. repeat steps 2 - 4
 
 const twoSumSorted = (nums, target) => {
-	let sorted = nums.sort((a, b) => a - b);
-
 	let i = 0,
-		j = sorted.length - 1;
+		j = nums.length - 1;
 	while (i < j) {
-		let sum = sorted[i] + sorted[j];
+		let sum = nums[i] + nums[j];
 		if (target === sum) return [i, j];
 		target > sum ? i++ : j--;
 	}
