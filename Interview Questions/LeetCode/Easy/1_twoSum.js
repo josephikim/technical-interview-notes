@@ -29,22 +29,51 @@
 
 /***********************************/
 
-/* 
- * Optimized answer
- * Use map or object to store a reference to each visisted element in nums - this means you only have to do one loop at most
- * 
- * Time Complexity = O(n) worst case
- * Space Complexity =  O(n) worse case
- * 
- * For a given input array this algorithm does the following steps:
+// Iterative solution (sorted array with two pointers)
 
-Create a map which accepts integer datatype as key and value.
-Iterate through each element in the given array starting from the first element.
-In each iteration check if required number (required  number = target sum - current number) is present in the map.
-If present, return [required number index, current number index] as  result.
-Otherwise add the required number as key and its index as value to the map. Repeat this  until you find the result.
+// Note: ONLY works for sorted array. If input is possibly unsorted, it would be more complex bc we have to map indices from unsorted to sorted to recover solution indices from original input array. In that case try map-based solutions below.
 
- */
+// Time complexity = O(n)
+// Space complexity = O(n) for sorted array
+
+// Algo
+// 0. Sort nums in increasing order
+// 1. Init i at 0 and j at end
+// 2. check sum against target
+// 3. if found, return result
+// 4. if less than target, increment i. If more than target, decrement j
+// 5. repeat steps 2 - 4
+
+const twoSumSorted = (nums, target) => {
+	let sorted = nums.sort((a, b) => a - b);
+
+	let i = 0,
+		j = sorted.length - 1;
+	while (i < j) {
+		let sum = sorted[i] + sorted[j];
+		if (target === sum) return [i, j];
+		target > sum ? i++ : j--;
+	}
+	return null;
+};
+
+/***********************************/
+
+// Iterative solution (with JS Map)
+
+// Time complexity = O(n)
+// Space complexity = O(n)
+
+// Algo
+// Use map or object to store a reference to each visisted element in nums - this means you only have to do one loop at most
+
+// 1. Init map
+// 2. Loop each element in nums
+// 3. In each iteration check if target difference (ie target sum - current number) is present in the map.
+// 4. If present, return [map[target], current index] as result.
+// 5. Otherwise add the target difference as map's key and current index as value.
+// 6. Repeat steps 3 - 5 until you find the result.
+
 const twoSumWithMap = (nums, target) => {
 	// create map to store indices of visited array elements
 	let hash = new Map();
@@ -62,41 +91,40 @@ const twoSumWithMap = (nums, target) => {
 	return null;
 };
 
-var twoSumBest = function (nums, target) {
-	if (nums.length < 2) {
-		return [];
-	}
+// same logic as above but using object instead of map
 
-	const map = {};
+// var twoSumBest = function (nums, target) {
+// 	if (nums.length < 2) {
+// 		return [];
+// 	}
 
-	for (let i = 0; i < nums.length; i++) {
-		const complement = target - nums[i];
+// 	const map = {};
 
-		if (map[complement] !== undefined) {
-			return [map[complement], i];
-		}
+// 	for (let i = 0; i < nums.length; i++) {
+// 		const complement = target - nums[i];
 
-		map[nums[i]] = i;
-	}
+// 		if (map[complement] !== undefined) {
+// 			return [map[complement], i];
+// 		}
 
-	return [];
-};
+// 		map[nums[i]] = i;
+// 	}
 
-// Naive solution
+// 	return [];
+// };
 
-// Take one element
-// Add this element with every other element
+/***********************************/
+
+// Iterative solution (naive)
+
+// Time Complexity = n * (n - 1) / 2 = n2 - 2n ≈ n2 = O(n2) ie
+// Space Complexity = we are not using any extra data structure hence our space complexity would be O(1)
+
+// Set up nested loops with i starting at 0 and j starting at i + 1
+// Add element at i with element at j
 // After adding, compare the sum with the given target
 // If the sum is equal to the target, return the indices of these two elements
 // If the sum is not equal to the target, we check for the next pair
-
-/**
- *
- * BAD bc it takes quadratic time which is bad for large inputs
- *
- * Time Complexity = n * (n - 1) / 2 = n2 - 2n ≈ n2 = O(n2)
- * Space Complexity = we are not using any extra data structure hence our space complexity would be O(1)
- */
 
 const twoSumBrute = (nums, target) => {
 	for (let i = 0; i < nums.length - 1; i++) {
@@ -110,10 +138,11 @@ const twoSumBrute = (nums, target) => {
 };
 
 /*
- * Still naive, bc still involves 2 for loops (eg indexOf() actually uses a simple for loop under the hood)
+ * Still naive, bc still involves 2 for loops (bc indexOf() uses a simple for loop under the hood)
  * No savings to time or space complexity
  */
-const twoSumBruteTwo = (nums, target) => {
+
+const twoSumBrute2 = (nums, target) => {
 	// outer for loop
 	for (const [i, num] of Object.entries(nums)) {
 		// inner for loop
@@ -126,7 +155,7 @@ const twoSumBruteTwo = (nums, target) => {
 	return null;
 };
 
-// RUNTIME
+// Runtime
 
 let nums = [0, 2, 4, 6, 8];
 
