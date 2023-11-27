@@ -36,8 +36,7 @@
 
 // Iterative solution (improved)
 
-// Time complexity = O(nlogn) => n = nums.length
-// Note: Complexity is not O(n^2) bc inner while loop does not loop through n elements for every element in nums. Instead, there is an additional constant amount for work for each element so its actually O(n) + sigma summation of n (ie (n^2 + n)/2) which is a constant number, thus overall complexity is O(n). Also, the initial sorting happens once so only adds a constance amount of time to overall complexity.
+// Time complexity = O(n^2)
 // Space complexity = O(1) depending if you count result array
 
 // Algorithm
@@ -59,9 +58,11 @@ var threeSum = function (nums) {
 	let solutions = [];
 
 	// loop through each element in nums
-	for (i = 0; i < nums.length - 1; i++) {
+	for (i = 0; i < nums.length - 2; i++) {
 		// enforce uniqueness by skipping duplicates in nums[i]
 		if (i > 0 && nums[i] == nums[i - 1]) continue;
+		// skip any triplets where smallest number is positive (bc that triplet cannot add to zero)
+		if (nums[i] > 0) continue;
 
 		let target = nums[i] !== 0 ? -nums[i] : 0;
 
@@ -69,21 +70,19 @@ var threeSum = function (nums) {
 		let j = i + 1;
 		let k = nums.length - 1;
 
-		// enforce uniqueness by skipping duplicates in nums[j] or nums[k]
 		while (j < k) {
 			let sum = nums[j] + nums[k];
 			if (target === sum) {
-				solutions.push([nums[i], nums[j], nums[k]]);
-				j++;
-				k--;
-				while (nums[j] == nums[j - 1]) j++;
-				while (nums[k] == nums[k + 1]) k--;
+				let triplet = [nums[i], nums[j], nums[k]];
+				solutions.push(triplet);
+
+				// enforce uniqueness by skipping duplicates in nums[j] or nums[k]
+				while (j < k && nums[j] == triplet[1]) j++;
+				while (j < k && nums[k] == triplet[2]) k--;
 			} else if (target > sum) {
 				j++;
-				while (nums[j] == nums[j - 1]) j++;
 			} else {
 				k--;
-				while (nums[k] == nums[k + 1]) k--;
 			}
 		}
 	}
@@ -95,7 +94,7 @@ var threeSum = function (nums) {
 
 // Note: This is NOT A WORKING SOLUTION due to stack overflow. Storing every possible combination of indices in nums and their complement is not efficient. This code in included just for analysis purposes.
 
-// Time complexity = greater than O(n)
+// Time complexity = greater than O(n^2)
 // Space complexity =
 
 // Algorithm
