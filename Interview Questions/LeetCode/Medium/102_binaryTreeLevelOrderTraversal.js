@@ -22,9 +22,9 @@
 
 /***********************************/
 
-// Recursive solution
+// Recursive solution (DFS)
 
-// Time complexity = O(logn) => binary recursion
+// Time complexity = O(n) => it is recursive, but processes every node in n, unlike a traditional Depth First Search algo
 // Space complexity = O(n) if you count the result array
 
 // Algorithm
@@ -47,7 +47,7 @@
 var levelOrder = function (root) {
 	var getLevelsPreorder = function (node, level) {
 		if (node) {
-			if (!result[level]) result[level] = [];
+			if (result.length === level) result.push([]);
 			result[level].push(node.val);
 			// process left child
 			getLevelsPreorder(node.left, level + 1);
@@ -58,4 +58,61 @@ var levelOrder = function (root) {
 	let result = [];
 	getLevelsPreorder(root, 0);
 	return result;
+};
+
+/***********************************/
+
+// Iterative solution (BFS)
+
+// Time complexity = O(n) => it is recursive, but processes every node in n, unlike a Depth First Search algo
+// Space complexity = O(n) if you count the result array
+
+// Algorithm
+// 1. Use a BFS queue and a variable to track the current level starting at 0
+// 2. Init the queue with root node.
+// 3. Loop current length of queue, pulling the first node each time using shif()
+// 4. Push the node's val to levels[level]
+// 5. Push any non-null child nodes into queue
+// 6. Once the level has been processed, increment levels variable
+
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val, left, right) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.left = (left===undefined ? null : left)
+ *     this.right = (right===undefined ? null : right)
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @return {number[][]}
+ */
+
+var levelOrder = function (root) {
+	if (!root) return [];
+
+	const queue = [root];
+	const levels = [];
+	let level = 0;
+
+	while (queue.length > 0) {
+		const currLength = queue.length;
+
+		for (let i = 0; i < currLength; i++) {
+			const currNode = queue.shift();
+
+			if (!levels[level]) {
+				levels[level] = [currNode.val];
+			} else {
+				levels[level].push(currNode.val);
+			}
+
+			if (currNode.left) queue.push(currNode.left);
+			if (currNode.right) queue.push(currNode.right);
+		}
+
+		level += 1;
+	}
+
+	return levels;
 };
