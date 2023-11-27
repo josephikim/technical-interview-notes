@@ -66,9 +66,8 @@ var lengthOfLongestSubstring = function (s) {
 
 // Iterative solution (naive)
 
-// Time complexity = O(n) => n = s.length
-// Note: Complexity is not O(n^2) bc inner while loop does not loop through n elements for every character in s.
-// Instead, there is an additional constant amount for work for each n so its actually O(n) + sigma summation of n (ie (n^2 + n)/2) which is a constant number, thus overall complexity is O(n)
+// Time complexity = O(n^2)
+// The nested loops is an arithmetic summation (ie (n^2 + n)/2) which can be considered as dominated by n^2
 // Space complexity = O(n) for subStr array
 
 // 0. check base case if s.length < 2 return s.length

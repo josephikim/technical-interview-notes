@@ -124,7 +124,7 @@ function generateNextRow(lastRow) {
 
 // Recursive solution 2 (LESS EFFICIENT)
 
-// Time commplexity = O(n * 2^n) = single call to 'generateCell' O(2^n/sqrt(n)) multiplied by n^2 (arithmetic summation ie n*(n+1)/2) in nested loops
+// Time complexity = O(n^2 * 2^n/sqrt(n)) => 2 nested loops (arthmetic summation) times recursion at each cell (ie O(2^n/sqrt(n))
 
 // Auxiliary space = O(n) for temp array 'row'
 // Space complexity = O(n) for max depth of recursion calls

@@ -36,11 +36,11 @@
 
 // Iterative solution (improved)
 
-// Time complexity = O(n^2)
-// Space complexity = O(1) depending if you count result array
+// Time complexity = O(n^2) => we can ignore the initial sorting complexity nlogn bc it is dominated the by n^2 arithmetic summation
+// Space complexity = O(n^2) if you count result array
 
 // Algorithm
-// The key is to deconstruct the three-sum problem to iterations of the two-sum problem (ie Leetcode 1).
+// The key is to deconstruct the three-sum problem into n iterations of the two-sum problem (ie Leetcode 1).
 // This can be made more efficient by sorting nums before looping. This is ok because the solution will consists of values in nums, not indices.
 
 // 1. sort nums numerically, init solutions array
