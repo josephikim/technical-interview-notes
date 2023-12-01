@@ -1,3 +1,5 @@
+// Video link: https://www.youtube.com/watch?v=rw4s4M3hFfs
+
 // You are moving to a new apartment and have to decide which neighborhood block you want to live in. The blocks are arranged in a row, each of them has an equally suitable apartment to live in. However, you also have a set of requirements to meet (e.g. gym, school, store) regarding how far you would have to travel to visit the nearest instance of each requirement type.
 
 // You are given info for each block, whether it contains the items in your requirements list, marked by a boolean. Eg:
