@@ -49,19 +49,39 @@
 
 /***********************************/
 
-// Iterative solution (BFS)
+/**
+ *
+ */
+// Special note: When facing the question how to 'deep clone' a complex object eg an instance of class Node() which may contain a neighbors field consisting of an array of other Node instances, potentially including circular references, remember:
 
-// Time complexity = O(n) => n = num of nodes
-// Space complexity = O(n) => clones and traversed are both O(n)
+// WE DONT HAVE TO CLONE THE ENTIRE THING IN ONE GO
 
-// 1. init clone Map<node, cloneNode>
-// 2. init traversed Set()
-// 3. use BFS to traverse the graph
-// 4. use the Set to avoid circular path
-// 5. traverse queue starting with head
-// 6. for each neighbor, if not cloned, create a new node and connect it to the current node
-// 7. if not traversed, push neighbor into queue
-// 8. return cloned input node
+// Not only does this approach introduce complexity of how to properly deep clone, we also have to deal with mapping cloned elements from a nested context. Instead think of the following:
+
+// The solutions below take advantage of the fact that we can 'deep clone' complex objects in a piecemeal fashion ie
+// 1. first clone the Node instances using just the primitive fields (ie node.val only)
+// 2. store the new clone in a map
+// 3. for the clone's 'neighbors' field, push in new cloned Node instances as they become available in the map (ie clone.neighbors.push(clonedNeighbor))
+
+// This approach allows us flexibility in how to build the cloned Node and ensures that anything that gets attached to a clone must come from a pre-existing clone.
+
+/**
+ *
+ */
+
+/*******************************/
+
+// Iterative solution (DFS - optimized)
+
+// Time complexity = O(n) => n nodes * m (constant) neighbors per node
+// Space complexity = O(n) => map is O(n)
+
+// 1. Same logic as DFS solution below but without checking for traversed state
+// 2. Reduces DFS logic at each node to the following:
+// 	- check map for cloned target, if found then return clone
+// 	- otherwise create new clone using target.val and add to map
+// 	- loop through target node's neighbors and push the result of a recursive dfs call on each into cloned node
+// 	- return cloned node
 
 /**
  * // Definition for a Node.
@@ -76,37 +96,28 @@
  * @return {Node}
  */
 var cloneGraph = function (node) {
-	if (!node) return null;
-
-	const clones = new Map();
-	const traversed = new Set();
-	const queue = [node];
-
-	clones.set(node, new Node(node.val));
-
-	while (queue.length > 0) {
-		const head = queue.shift();
-
-		if (traversed.has(head)) {
-			continue;
-		}
-		const clonedHead = clones.get(head);
-		for (let neighbor of head.neighbors) {
-			if (clones.has(neighbor)) {
-				clonedHead.neighbors.push(clones.get(neighbor));
-			} else {
-				const clonedNeighbor = new Node(neighbor.val);
-				clonedHead.neighbors.push(clonedNeighbor);
-				clones.set(neighbor, clonedNeighbor);
-			}
-
-			if (!traversed.has(neighbor)) {
-				queue.push(neighbor);
-			}
-		}
-		traversed.add(head);
+	if (node === null) {
+		return node;
 	}
-	return clones.get(node);
+
+	const oldToNew = new Map();
+
+	const dfs = (target) => {
+		if (oldToNew.has(target)) {
+			return oldToNew.get(target);
+		}
+
+		const copy = new Node(target.val);
+		oldToNew.set(target, copy);
+
+		for (const neighbor of target.neighbors) {
+			copy.neighbors.push(dfs(neighbor));
+		}
+
+		return copy;
+	};
+
+	return dfs(node);
 };
 
 /***********************************/
@@ -166,6 +177,68 @@ var cloneGraph = function (node) {
 			}
 		}
 		traversed.add(top);
+	}
+	return clones.get(node);
+};
+
+/***********************************/
+
+// Iterative solution (BFS)
+
+// Time complexity = O(n) => n = num of nodes
+// Space complexity = O(n) => clones and traversed are both O(n)
+
+// 1. init clone Map<node, cloneNode>
+// 2. init traversed Set()
+// 3. use BFS to traverse the graph
+// 4. use the Set to avoid circular path
+// 5. traverse queue starting with head
+// 6. for each neighbor, if not cloned, create a new node and connect it to the current node
+// 7. if not traversed, push neighbor into queue
+// 8. return cloned input node
+
+/**
+ * // Definition for a Node.
+ * function Node(val, neighbors) {
+ *    this.val = val === undefined ? 0 : val;
+ *    this.neighbors = neighbors === undefined ? [] : neighbors;
+ * };
+ */
+
+/**
+ * @param {Node} node
+ * @return {Node}
+ */
+var cloneGraph = function (node) {
+	if (!node) return null;
+
+	const clones = new Map();
+	const traversed = new Set();
+	const queue = [node];
+
+	clones.set(node, new Node(node.val));
+
+	while (queue.length > 0) {
+		const head = queue.shift();
+
+		if (traversed.has(head)) {
+			continue;
+		}
+		const clonedHead = clones.get(head);
+		for (let neighbor of head.neighbors) {
+			if (clones.has(neighbor)) {
+				clonedHead.neighbors.push(clones.get(neighbor));
+			} else {
+				const clonedNeighbor = new Node(neighbor.val);
+				clonedHead.neighbors.push(clonedNeighbor);
+				clones.set(neighbor, clonedNeighbor);
+			}
+
+			if (!traversed.has(neighbor)) {
+				queue.push(neighbor);
+			}
+		}
+		traversed.add(head);
 	}
 	return clones.get(node);
 };
