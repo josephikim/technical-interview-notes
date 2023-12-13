@@ -31,10 +31,11 @@
 
 // Iterative solution (sorted array with two pointers)
 
-// Note: ONLY WORKS FOR SORTED ARRAY (which would allow O(n)). If input is unsorted, it adds complexity bc we have to use sort() or toSorted() on original array and also recover indices from original array accounting for duplicate values. Consider using map-based solutions below for a O(n) solution given unsorted input array.
+// Note: ONLY WORKS FOR SORTED ARRAY (which would allow O(n)). If input is unsorted, it adds complexity bc we have to use sort() or toSorted() on original array and also recover indices from original array accounting for duplicate values.
+// If you have to leave array unsorted, consider using map-based solutions below for a O(n) solution.
 
-// Time complexity = O(n)
-// Space complexity = O(n)
+// Time complexity = O(n) + O(nlogn) for array.sort => O(nlogn)
+// Space complexity = O(1)
 
 // Algo (assuming sorted array)
 // 1. Init i at 0 and j at end

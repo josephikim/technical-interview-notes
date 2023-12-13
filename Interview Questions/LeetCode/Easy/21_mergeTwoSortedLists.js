@@ -72,12 +72,14 @@ var mergeTwoLists = function (list1, list2) {
 /***********************************/
 
 // Recursive solution
-// Time commplexity = O(n) worst case
-// n = l1.length + l2.length
-//
+
+// Time commplexity = O(n) worst case (n = list1.length + list2.length)
 // Space complexity = O(1)
-//
-// Use recursion to stitch sublists together one node at a time
+
+// Algo:
+// Use recursion to stitch sublists together one node at a time.
+// The key is the recurrence relationship:
+// if list1.val is smaller than list2.val => list1.next = merged(list1.next, list2)
 
 /**
  * Definition for singly-linked list.

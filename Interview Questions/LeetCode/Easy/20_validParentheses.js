@@ -22,7 +22,7 @@
 // Constraints:
 
 // 1 <= s.length <= 104
-// s consists of parentheses only '()[]{}'./**
+// s consists of brackets only ie '()[]{}'
 
 /***********************************/
 
@@ -36,7 +36,7 @@
 // ie n = s.length
 // stack = O(n), bracketMap = O(1)
 //
-// use map to access character matches instead of switch cases or array.includes
+// use map to access character matches instead of switch statement or array.indexOf()
 // use arr as a 'stack' to track opening brackets
 var isValid = function (s) {
 	const stack = [];
@@ -98,10 +98,10 @@ var isValid = function (s) {
 
 // Need to use "stack" data structure
 // A Stack is basically a FILO array (first in last out)
-// As opposed to FIFO array (first in first out) e.g. the queue array in binary search tree BFS
+// As opposed to FIFO array (first in first out) e.g. the queue array in binary tree BFS
 
 // let isBalanced = (input) => {
-//   let brackets = "[]{}()<>";
+//   let brackets = "[]{}()";
 //   let stack = [];
 //   //   iterate through input
 //   for (let bracket of input) {
@@ -110,16 +110,16 @@ var isValid = function (s) {
 //     if (bracketsIndex === -1) {
 //       continue;
 //     }
-//     // 	 if the current element is an opening bracket, record the correct closing bracket
+//     // if the current element is an opening bracket, record the correct closing bracket
 //     if (bracketsIndex % 2 === 0) {
 //       stack.push(bracketsIndex + 1);
 //     } else {
-//       //     if the current element is a closing bracket, check the record to make sure it is the correct closing bracket
+//       //  if the current element is a closing bracket, check the record to make sure it is the correct closing bracket
 //       if (stack.pop() !== bracketsIndex) {
 //         return false;
 //       }
 //     }
 //   }
-//   //   if all the opening and closing brackets are matched and in the correct order, return true, otherwise return false
+//   // if all the opening and closing brackets are matched and in the correct order, return true, otherwise return false
 //   return stack.length === 0;
 // };

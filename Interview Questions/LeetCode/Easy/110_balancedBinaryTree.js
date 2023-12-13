@@ -46,13 +46,13 @@
 var isBalanced = function (root) {
 	let result = true;
 
-	const height = (node) => {
+	const checkSubstrees = (node) => {
 		if (!node) {
 			return 0;
 		}
 
-		let left = height(node.left);
-		let right = height(node.right);
+		let left = checkSubstrees(node.left);
+		let right = checkSubstrees(node.right);
 
 		if (Math.abs(left - right) > 1) {
 			result = false;
@@ -61,7 +61,7 @@ var isBalanced = function (root) {
 		return Math.max(left, right) + 1;
 	};
 
-	height(root);
+	checkSubstrees(root);
 
 	return result;
 };
