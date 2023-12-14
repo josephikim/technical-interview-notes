@@ -15,11 +15,38 @@ constraints:
 -there may or may not be an even number of total div tags
 */
 
-// Iterative - str.split("<div>")
+// Iterative - naive
 // Time complexity: O(n)
 // Space complexity: O(n)
 
 const closeDivs = (input) => {
+	let divCounter = 0;
+	let unknownFour = "";
+	let res = "";
+	for (let i = 0; i < input.length; i++) {
+		if (input[i] === "<") {
+			for (let j = 1; j <= 4; j++) {
+				unknownFour += input[i + j];
+			}
+		}
+		res += input[i];
+
+		if (unknownFour === "div>") {
+			divCounter++;
+			if (divCounter % 2 === 0) {
+				res += "/";
+			}
+		}
+		unknownFour = "";
+	}
+	return res;
+};
+
+// Iterative - str.split("<div>")
+// Time complexity: O(n)
+// Space complexity: O(n)
+
+const closeDivsOptimal = (input) => {
 	let substrings = input.split("<div>");
 
 	let res = "";
@@ -33,8 +60,8 @@ const closeDivs = (input) => {
 };
 
 // let html = "<div><p> Here is a <div> tag </p>";
-// let html = "<div><div><div>";
-let html = "<div><div><p>Hello</p><div><div>";
+let html = "<div><div><div>";
+// let html = "<div><div><p>Hello</p><div><div>";
 // console.log(closeDivs(html));
 
 // Optimized - regex
@@ -46,4 +73,4 @@ const closeDivsRegex = (input) => {
 	return input.replace(/<div>/g, (match) => (++t % 2 === 0 ? "</div>" : match));
 };
 
-console.log(closeDivsRegex(html));
+console.log(closeDivs(html));
