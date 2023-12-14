@@ -31,6 +31,53 @@
 
 /*******************************/
 
+// Iterative solution (BFS)
+
+function numIslands(grid) {
+	let count = 0;
+
+	const bfs = (i, j) => {
+		const queue = [[i, j]];
+
+		while (queue.length) {
+			const [x, y] = queue.pop();
+
+			// This sets 'marked' in the grid
+			grid[x][y] = 0;
+
+			const arr = [
+				[x + 1, y],
+				[x, y + 1],
+				[x - 1, y],
+				[x, y - 1],
+			];
+			for (let i = 0; i < arr.length; i += 1) {
+				if (
+					arr[i][0] >= 0 &&
+					arr[i][0] < grid.length &&
+					arr[i][1] >= 0 &&
+					arr[i][1] < grid[0].length &&
+					grid[arr[i][0]][arr[i][1]] === "1"
+				) {
+					queue.push([arr[i][0], arr[i][1]]);
+				}
+			}
+		}
+	};
+
+	for (let i = 0; i < grid.length; i += 1) {
+		for (let j = 0; j < grid[0].length; j += 1) {
+			if (grid[i][j] === "1") {
+				count += 1;
+				bfs(i, j);
+			}
+		}
+	}
+	return count;
+}
+
+/*******************************/
+
 // Iterative solution (DFS)
 
 //Time complexity : O(M×N) where M is the number of rows and N is the number of columns.
