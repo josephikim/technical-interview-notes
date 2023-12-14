@@ -24,7 +24,7 @@
 
 /***********************************/
 
-// Iterative solution 1 (least memory)
+// Iterative solution (least memory)
 
 // Time complexity = O(n)
 // Space complexity = O(1)

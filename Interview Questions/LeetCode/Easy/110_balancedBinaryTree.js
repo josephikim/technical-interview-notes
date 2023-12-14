@@ -46,13 +46,13 @@
 var isBalanced = function (root) {
 	let result = true;
 
-	const checkSubstrees = (node) => {
+	const tallestSubtree = (node) => {
 		if (!node) {
 			return 0;
 		}
 
-		let left = checkSubstrees(node.left);
-		let right = checkSubstrees(node.right);
+		let left = tallestSubtree(node.left);
+		let right = tallestSubtree(node.right);
 
 		if (Math.abs(left - right) > 1) {
 			result = false;
@@ -61,14 +61,14 @@ var isBalanced = function (root) {
 		return Math.max(left, right) + 1;
 	};
 
-	checkSubstrees(root);
+	tallestSubtree(root);
 
 	return result;
 };
 
 // Naive solution
 
-// Time complexity = O(N) (getHeight is called once twice for each node, so O(2N) = O(N))
+// Time complexity = O(N) (getHeight is called twice for each node, so O(2N) => O(N))
 // Space complexity = O(H), where H is height of tree (worst case H = N)
 
 // utilize getHeight method for binary tree

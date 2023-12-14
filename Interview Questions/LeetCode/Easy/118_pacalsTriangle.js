@@ -107,17 +107,17 @@ var generate = function (numRows) {
 
 function generatePascal(n) {
 	if (n <= 0) return 1;
-	return generateNextRow(generatePascal(n - 1));
+	return generatePascalRow(generatePascal(n - 1));
 }
 
-function generateNextRow(lastRow) {
-	let nextRow = [];
-	nextRow.push(1);
-	for (let i = 0; i < lastRow.length - 1; i++) {
-		nextRow.push(lastRow[i] + lastRow[i + 1]);
+function generatePascalRow(prevRow) {
+	let currRow = [];
+	currRow.push(1);
+	for (let i = 0; i < prevRow.length - 1; i++) {
+		currRow.push(prevRow[i] + prevRow[i + 1]);
 	}
-	nextRow.push(1);
-	return nextRow;
+	currRow.push(1);
+	return currRow;
 }
 
 /***********************************/
