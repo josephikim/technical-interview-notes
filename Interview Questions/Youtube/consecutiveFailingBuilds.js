@@ -1,4 +1,4 @@
-// Video link: https://www.youtube.com/watch?v=rw4s4M3hFfs
+// Youtube: https://www.youtube.com/watch?v=rw4s4M3hFfs
 
 // You are an engineer monitoring the build status of an application and how long it takes to transition from a failed build back to a passing build. The data is a list composed of build runs consisting of statuses marked by a boolean (true for passing, false for failing). Each run starts with a passing status (ie 'true') and ends with the last failing status ('false') before transitioning back to a passing status.
 

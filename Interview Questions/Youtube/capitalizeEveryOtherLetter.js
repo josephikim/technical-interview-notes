@@ -1,5 +1,7 @@
 /*
 
+Youtube: https://www.youtube.com/watch?v=t3qZR6Qjy-c
+
 Write a function that accepts a String as an argument. The function should capitalize ONLY every other letter in the String.
 
 The function should then return the converted String.
