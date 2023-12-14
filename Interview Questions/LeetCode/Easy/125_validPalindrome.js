@@ -47,8 +47,7 @@ var isPalindrome = function (s) {
 };
 
 // Naive solution
-// same as above, but excessive calls to prices[i]
-
+// same as above, but using array spread operator instead of str.split()
 // /**
 //  * @param {string} s
 //  * @return {boolean}

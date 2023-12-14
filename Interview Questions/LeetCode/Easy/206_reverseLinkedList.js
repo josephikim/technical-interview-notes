@@ -27,9 +27,13 @@
 // Time commplexity = O(n) worst case
 // Space complexity = O(1) worst case
 //
-// loop through nodes, with curr and prev nodes
-// in each loop, REVERSE the linkage and attach to prev node
-
+// loop through nodes, with curr and prev node pointers
+// in each loop, REVERSE the linkage from curr to curr.next (by attaching curr to prev node)
+//    1 -> 2 -> 3 -> 4
+// <- 1    2 -> 3 -> 4
+// <- 1 <- 2    3 -> 4
+// <- 1 <- 2 <- 3    4
+// <- 1 <- 2 <- 3 <- 4
 /**
  * Definition for singly-linked list.
  * function ListNode(val, next) {
@@ -58,42 +62,7 @@ var reverseList = function (head) {
 
 /***********************************/
 
-// Iterative solution (naive)
-
-// Time commplexity = O(n) worst case
-// Space complexity = O(1) worst case
-//
-// loop through nodes, set pointer to next node
-// update linkages and set next node as new head, then return new head
-
-/**
- * Definition for singly-linked list.
- * function ListNode(val, next) {
- *     this.val = (val===undefined ? 0 : val)
- *     this.next = (next===undefined ? null : next)
- * }
- */
-/**
- * @param {ListNode} head
- * @return {ListNode}
- */
-// var reverseList = function (head) {
-// 	if (!head || !head.next) return null;
-// 	let newHead = head;
-// 	let current = newHead;
-
-// 	while (current && current.next) {
-// 		let next = current.next; // this pointer will become new head
-// 		current.next = next.next; // set current.next to node after next
-// 		next.next = newHead; // set pointer.next to head (position 0)
-// 		newHead = next; // set pointer as new head
-// 	}
-// 	return newHead;
-// };
-
-/***********************************/
-
-// Recusive solution
+// Recursive solution
 
 // Time commplexity = O(N) worst case
 // Space complexity = O(N) worst case
@@ -105,6 +74,11 @@ var reverseList = function (head) {
 //    this results in a reversed list one node longer, which you then return as 'rest'
 // once recursions are done, return final 'rest'
 
+//    1(h) -> 2 -> 3 -> 4
+//    1 -> 2 -> 3(h) <- 4(r)
+//    1 -> 2(h) <- 3 <- 4(r)
+//    1(h) <- 2 <- 3 <- 4(r)
+
 /**
  * Definition for singly-linked list.
  * function ListNode(val, next) {
@@ -116,14 +90,14 @@ var reverseList = function (head) {
  * @param {ListNode} head
  * @return {ListNode}
  */
-// var reverseList = function (head) {
-// 	if (!head || !head.next) {
-// 		// return node as is
-// 		return head;
-// 	}
-// 	let rest = reverseList(head.next); // rest points to new reverse linked list starting at last node
-// 	head.next.next = head; // reverse linkage from head to final node of rest
-// 	head.next = null; // remove circular reference from head to final node of rest
+var reverseListRecursive = function (head) {
+	if (!head || !head.next) {
+		// return node as is
+		return head;
+	}
+	let rest = reverseListRecursive(head.next); // rest points to new reverse linked list starting at last node
+	head.next.next = head; // reverse linkage from head to final node of rest
+	head.next = null; // remove circular reference from head to final node of rest
 
-// 	return rest; // return rest ie updated reversed linked list
-// };
+	return rest; // return rest ie updated reversed linked list
+};

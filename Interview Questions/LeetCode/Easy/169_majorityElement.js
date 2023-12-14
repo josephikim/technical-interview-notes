@@ -33,6 +33,9 @@
 // 3. Eg, for [1, 2, x, y, z], on the third element, we are at a breakevent point. Disregard previous elements and just start tracking occurences of 'x'
 // after looping entire array, return latest tracked element
 
+// Why this works? Because assuming there exists a majority element (from either an odd-numbered array or even-numbered array), the majority element will always 'outweigh' the countering elements over the entire length of the array, even with the smallest majority:
+// [m, m, q, p, m ]
+
 /**
  * @param {number[]} nums
  * @return {number}
@@ -42,12 +45,12 @@ var majorityElement = function (nums) {
 		cnt = 0;
 	// For every element i in the array...
 	for (let i = 0; i < nums.length; i++) {
-		// If cnt is equal to zero, update sol as sol = i
+		// If cnt is equal to zero, update sol as sol = nums[i]
 		if (cnt == 0) {
 			sol = nums[i];
 			cnt = 1;
 		}
-		// If i is equal to candidate, increment cnt...
+		// If nums[i] is equal to current solution, increment cnt...
 		else if (sol == nums[i]) {
 			cnt++;
 		}
