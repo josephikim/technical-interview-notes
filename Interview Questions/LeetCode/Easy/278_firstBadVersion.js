@@ -21,13 +21,13 @@
 
 // Constraints:
 
-// 1 <= bad <= n <= 231 - 1
+// 1 <= bad <= n <= 2^31 - 1
 
 /***********************************/
 
 // Optimal solution
 
-// use binary search algo
+// use binary search algo to split length of array to check in half each iteration
 // time complexity = O(logN)
 // space complexity = O(1)
 
@@ -55,7 +55,7 @@ var solution = function (isBadVersion) {
 		let l = 1;
 		let r = n;
 		while (l < r) {
-			// NOTE = potential stack over flow if we did (l + r) / 2, so use subtraction version below
+			// NOTE: potential stack overflow if we did (l + r) / 2 [see constraints above], so use subtraction version below
 			let mid = l + Math.floor((r - l) / 2);
 
 			if (isBadVersion(mid)) {

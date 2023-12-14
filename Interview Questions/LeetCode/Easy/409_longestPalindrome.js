@@ -109,8 +109,8 @@ var longestPalindrome = function (s) {
 	// fill up freq array using UTF-16 code points
 	for (let i = 0; i < s.length; i++) {
 		let idx = !isLowerCase(s[i])
-			? s.charCodeAt(i) - 65
-			: s.charCodeAt(i) - 97 + 26;
+			? s.charCodeAt(i) - 65 // normalize uppercase letters (unicode 65 for 'A')
+			: s.charCodeAt(i) - 97 + 26; // normalize lowercase letters (unicode 97 for 'a', add 26 to account for uppercase letters in freq array)
 		alpha[idx]++;
 	}
 

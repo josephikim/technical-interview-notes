@@ -27,7 +27,7 @@
 // Time complexity = O(N * M);  N = magazine.length, M = ransomNode.length
 // Space complexity = O(1)
 
-// loop through ransomeNote
+// loop through ransomNote
 // if char is found in magazine, create a new string to replace magazine that excludes the found character
 
 /**

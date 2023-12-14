@@ -9,6 +9,7 @@
 // Input: root = [1,2,3,4,5]
 // Output: 3
 // Explanation: 3 is the length of the path [4,2,1,3] or [5,2,1,3].
+
 // Example 2:
 
 // Input: root = [1,2]
@@ -31,19 +32,22 @@
 // 3. at any node in recursion, if both subtree path lengths added together are greater than current longestPath, update longestPath before returning max subtree path + 1 (for edge leading to node in question)
 
 var diameterOfBinaryTree = function (root) {
+	if (!root) return 0;
+
 	let longestPath = 0;
 
 	function findLongestPath(node) {
-		if (node === null) return 0;
+		if (!node) return 0;
 
 		const leftPath = findLongestPath(node.left);
 		const rightPath = findLongestPath(node.right);
 		longestPath = Math.max(longestPath, leftPath + rightPath);
 
+		// returns path length of longest subtree NOT longest diameter
 		return Math.max(leftPath, rightPath) + 1;
 	}
 
-	findLongestPath(root, 0);
+	findLongestPath(root);
 	return longestPath;
 };
 

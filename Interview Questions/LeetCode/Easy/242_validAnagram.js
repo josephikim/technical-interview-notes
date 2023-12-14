@@ -92,8 +92,8 @@ const getFreqMap = (str) =>
 // Time complexity = O(nlog(n)) for most common sorting algos
 // Space complexity = O(n)
 //
-// create two freq maps, for s and t
-// compare if the two freq maps are equal
+// convert s and t into arrays and sort them
+// convert sorted arrays into strings and check if they're equal
 
 // var isAnagram = function(s, t) {
 //     const sortedS = [...s].sort()
