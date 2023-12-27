@@ -32,7 +32,7 @@ class BinarySearchTree {
 	 * @return {boolean}
 	 */
 
-	isValidBSTNullPointer(root, l, r) {
+	validateBSTNullPointer(root, l, r) {
 		console.log("running BST null pointer with args:", [
 			root ? root.data : null,
 			l ? l.data : null,
@@ -53,8 +53,8 @@ class BinarySearchTree {
 
 		// check recursively for every node.
 		return (
-			this.isValidBSTNullPointer(root.left, l, root) &&
-			this.isValidBSTNullPointer(root.right, root, r)
+			this.validateBSTNullPointer(root.left, l, root) &&
+			this.validateBSTNullPointer(root.right, root, r)
 		);
 	}
 
@@ -249,13 +249,13 @@ bst.insert(6);
 // bst.insert(21);
 // console.log("isValidBST:", bst.isValidBST());
 console.log(
-	"isValidBSTNullPointer:",
-	bst.isValidBSTNullPointer(bst.getRootNode(), null, null)
+	"validateBSTNullPointer:",
+	bst.validateBSTNullPointer(bst.getRootNode(), null, null)
 );
 
 // console.log(
-//   "isValidBSTNullPointer:",
-//   bst.isValidBSTNullPointer(
+//   "validateBSTNullPointer:",
+//   bst.validateBSTNullPointer(
 //     bst.getRootNode(),
 //     bst.getRootNode().left,
 //     bst.getRootNode().right
