@@ -31,18 +31,22 @@ function splitArrayByRange(array) {
 		if (element < 10) {
 			ranges[0].push(element);
 		} else {
-			// get first match in regex test for any digit
+			// get first digit by extracting first regex match for any digit
 			const firstMatch = String(element).match(/\d/)[0];
 			const digit = Number(firstMatch);
 			ranges[digit].push(element);
 		}
 	}
 	for (var range of ranges) {
-		console.log(
-			`${range.length} Elements in array: ${"*".repeat(
-				range.length
-			)} ${range.join("")} \n`
-		);
+		if (range.length) {
+			console.log(
+				`${range.length} Elements in array: ${"*".repeat(
+					range.length
+				)} ${range.join(",")} \n`
+			);
+		} else {
+			console.log(`No elements in array \n`);
+		}
 	}
 }
 
