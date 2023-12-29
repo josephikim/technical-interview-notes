@@ -21,7 +21,7 @@
 //   input: [[0, 200],[199,1440]]
 //   output: []
 
-// Take in array of tuples [start, end], outputs array of tuples [startGap, endGap]
+// Take in array of tuples (eg [start, end]), and outputs array of tuples representing all gaps found (eg [startGap, endGap])
 // If no event starts at time 0, there is a gap
 // If no event ends at time 1440, there is a gap
 
@@ -29,27 +29,49 @@
 // Also check for gap in start of first tuple and end of last tuple
 // Construct array of tuples [gapStart, gapEnd]
 
+const findGaps = (inputArr) => {
+	const result = [];
+	const sorted = inputArr.sort((a, b) => a[0] - b[0]);
+
+	sorted.forEach(function ([start, end], i) {
+		// check if end of current tuple is < start of next tuple
+		// if true, create new tuple with start being end of current tuple, and end being start of next tuple and push into result array
+
+		if (i < sorted.length - 1) {
+			// don't process last tuple
+			const isGap = end < sorted[i + 1][0];
+
+			if (isGap) {
+				const tuple = [end, sorted[i + 1][0]];
+				result.push(tuple);
+			}
+		}
+	});
+
+	return result;
+};
+
+// const input = [
+// 	[0, 200],
+// 	[600, 1440],
+// 	[200, 400],
+// ];
+// const input = [
+// 	[0, 200],
+// 	[600, 1440],
+// 	[201, 400],
+// ];
+// const input = [
+// 	[0, 200],
+// 	[600, 1440],
+// 	[199, 400],
+// ];
+// const input = [
+// 	[0, 200],
+// 	[600, 1440],
+// 	[200, 600],
+// ];
 const input = [
-	[0, 200],
-	[600, 1440],
-	[200, 400],
-];
-const input2 = [
-	[0, 200],
-	[600, 1440],
-	[201, 400],
-];
-const input3 = [
-	[0, 200],
-	[600, 1440],
-	[199, 400],
-];
-const input4 = [
-	[0, 200],
-	[600, 1440],
-	[200, 600],
-];
-const input5 = [
 	[0, 0],
 	[1, 200],
 	[600, 1439],
@@ -57,52 +79,4 @@ const input5 = [
 	[1440, 1440],
 ];
 
-const findGaps = (inputArr) => {
-	let gaps = [];
-	const sorted = inputArr.sort((a, b) => a[0] - b[0]);
-	console.log("sorted", sorted);
-	// for (const ([start, end], i) in events) {
-	sorted.forEach(function ([start, end], i) {
-		// check if end of current tuple is < start of next tuple
-		// if true, create new tuple with start being end of current tuple, and end being start of next tuple
-		// push into gaps array
-
-		// console.log('element', sorted[i])
-		// console.log('i', i)
-
-		if (i == sorted.length - 1) return;
-		const isGap = end < sorted[i + 1][0];
-
-		if (isGap) {
-			const gap = [end, sorted[i + 1][0]];
-			gaps.push(gap);
-		}
-	});
-	// console.log('gaps', gaps)
-	return gaps;
-};
-
-const result = findGaps(input5);
-console.log("result", result);
-
-// class GapFinder {
-//   constructor(inputArr) {
-//     this.events = this.sortInput(inputArr)
-//   }
-
-//   // Injects dummy tuples at beginning and end of array
-//   sortInput(input) {
-//     return input.sort((a, b) => b[0] - a[0])
-//   }
-
-//   // findGaps(events) {
-//   //   for (const ([start, end], i) in events) {
-
-//   //   }
-//   // }
-// }
-
-// const test = new GapFinder(input)
-
-// // const sorted = test.sortInput();
-// // console.log('test.events', test.events)
+console.log(findGaps(input));
