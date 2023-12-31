@@ -15,6 +15,41 @@ constraints:
 -there may or may not be an even number of total div tags
 */
 
+/*******************************/
+
+// Optimized - regex
+// Time complexity: O(n)
+// Space complexity: O(1)
+
+// regex searching a substring inside a string can be done in linear time using KMP algorithm which is the most efficient.
+// regex replacing in the worst case will take linear time as well.
+const closeDivsRegex = (input) => {
+	// Note: in the callback for regex replace function, the first parameter will contain the found string, the second parameter - the first capturing group, the third parameter - the second capturing group, and so on - you can pass as many parameters as there are capturing groups in the regular expression.
+	let t = 0;
+	return input.replace(/<div>/g, (match) => (++t % 2 === 0 ? "</div>" : match));
+};
+
+/*******************************/
+
+// Iterative - str.split()
+// Time complexity: O(n)
+// Space complexity: O(n)
+
+const closeDivsOptimal = (input) => {
+	let substrings = input.split("<div>");
+
+	let res = "";
+	for (let i = 0; i < substrings.length; i++) {
+		res += substrings[i];
+		if (i < substrings.length - 1) {
+			res += i % 2 === 0 ? "<div>" : "</div>";
+		}
+	}
+	return res;
+};
+
+/*******************************/
+
 // Iterative - naive
 // Time complexity: O(n)
 // Space complexity: O(n)
@@ -42,35 +77,8 @@ const closeDivs = (input) => {
 	return res;
 };
 
-// Iterative - str.split("<div>")
-// Time complexity: O(n)
-// Space complexity: O(n)
-
-const closeDivsOptimal = (input) => {
-	let substrings = input.split("<div>");
-
-	let res = "";
-	for (let i = 0; i < substrings.length; i++) {
-		res += substrings[i];
-		if (i < substrings.length - 1) {
-			res += i % 2 === 0 ? "<div>" : "</div>";
-		}
-	}
-	return res;
-};
-
 // let html = "<div><p> Here is a <div> tag </p>";
-let html = "<div><div><div>";
 // let html = "<div><div><p>Hello</p><div><div>";
-// console.log(closeDivs(html));
-
-// Optimized - regex
-// Time complexity: O(n)
-// searching a substring inside a string can be done in linear time using KMP algorithm which is the most efficient. Replacing in the worst case will take linear time as well.
-const closeDivsRegex = (input) => {
-	// Note: in the callback for regex replace function, the first parameter will contain the found string, the second parameter - the first capturing group, the third parameter - the second capturing group, and so on - you can pass as many parameters as there are capturing groups in the regular expression.
-	let t = 0;
-	return input.replace(/<div>/g, (match) => (++t % 2 === 0 ? "</div>" : match));
-};
+let html = "<div><div><div>";
 
 console.log(closeDivs(html));

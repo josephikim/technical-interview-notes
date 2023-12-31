@@ -23,10 +23,12 @@ const array = [
 
 function splitArrayByRange(array) {
 	const ranges = Array.from(Array(10), () => []);
+
+	// Or use Array.fill
 	// const ranges = Array(10)
 	// 	.fill(null)
 	// 	.map((x) => []);
-	console.log({ ranges });
+
 	for (var element of array) {
 		if (element < 10) {
 			ranges[0].push(element);

@@ -1,11 +1,14 @@
-/* There is a list of period table elements.
+/* Youtube: https://www.youtube.com/watch?v=OVp2muKTkdg&t=1193s 
+
+There is a list of period table elements.
 
 Using a set of text inputs (firstName, lastName), dynamically render the text such that the first substring that matches an element in the period table will have special styling applied a la the logo from Breaking Bad. 
 
 When checking for matches:
 
 1. two-letter elements take precedence over one-letter elements (ie 'Br' should match before 'B')
-2. matches can exist at any substring in the input string
+2. matches can exist at any position input string
+3. only need to format the first valid match
 
 */
 
