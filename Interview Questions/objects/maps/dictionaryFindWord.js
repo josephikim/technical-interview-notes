@@ -47,7 +47,7 @@ class Dictionary {
 // How to do more optimization in constructor function in order to simplify isInDict()?
 class BetterDictionary {
 	// APPLIES FOR WORDS HAVING ONE WILDCARD CHARACTER ONLY
-	// This time we are not only adding entries like {'cat': 'cat'} to the wordMap
+	// This time we are not only adding entries like {'cat': true} to the wordMap
 	// but also adding {'*at': true}, {'c*t': true}, {'ca*': true} and so on, so that isInDict() can literally just do one O(1) lookup.
 
 	constructor(wordsArray) {
@@ -78,7 +78,7 @@ class BetterDictionary {
 
 // Solution 1: just stick with dictionary solution above since lookup will still be O(1) regardless of space complexity;
 
-// Solution 2: Use a character map that acutally includes star characters all the way through bc this would still be complexity O(1) lookup
+// Solution 2: Use a character map that actually includes star characters all the way through bc this would still be complexity O(1) for each step of lookups
 
 // {
 //   c: {
@@ -94,3 +94,5 @@ class BetterDictionary {
 //     }
 //   }
 // }
+
+// Similarly you can build a trie structure (see interview question for dictionaryScrabble)
