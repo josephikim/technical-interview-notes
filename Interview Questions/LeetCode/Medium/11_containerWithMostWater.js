@@ -28,8 +28,8 @@
 // Iterative solution (optimal)
 // This solution uses two pointers starting at opposite ends of the array
 
-// time complexity =
-// space complexity =
+// time complexity = O(N)
+// space complexity = O(1)
 
 /*
 1. init pointers l = 0, r = height.length - 1, maxArea = 0
