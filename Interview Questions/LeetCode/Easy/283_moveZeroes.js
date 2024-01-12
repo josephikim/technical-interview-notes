@@ -22,7 +22,37 @@
 
 /***********************************/
 
-// Iterative solution (using two pointers)
+// Iterative solution (pushing non-zero elements down)
+
+/*
+1. init pointers lastNonZeroFound = 0 and loop nums
+2. if nums[i] is nonzero, set nums[lastNonZeroFound] to nums[i]
+3. increment lastNonZeroFound;
+4. loop any element from lastNonZeroFound to nums.length and fill in with 0
+*/
+
+// time complexity = O(N)
+// space complexity = O(1)
+
+/**
+ * @param {number[]} nums
+ * @return {void} Do not return anything, modify nums in-place instead.
+ */
+var moveZeroes = function (nums) {
+	let lastNonZeroFound = 0;
+	for (let i = 0; i < nums.length; i++) {
+		if (nums[i] !== 0) {
+			nums[lastNonZeroFound++] = nums[i];
+		}
+	}
+	for (let j = lastNonZeroFound; j < nums.length; j++) {
+		nums[j] = 0;
+	}
+};
+
+/***********************************/
+
+// Iterative solution (using two pointers and swapping)
 
 /*
 1. init pointers l = 0 and r = 1 and loop while r < nums.length
@@ -32,8 +62,8 @@
 5. if nums[l] and nums[r] is nonzero, increment both
 */
 
-// time complexity =
-// space complexity =
+// time complexity = O(N)
+// space complexity = O(1)
 
 /**
  * @param {number[]} nums
