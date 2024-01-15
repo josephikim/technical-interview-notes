@@ -113,7 +113,7 @@ const twoSumWithMap = (nums, target) => {
 
 /***********************************/
 
-// Iterative solution (naive)
+// Iterative solution (brute force)
 
 // Time Complexity = n * (n - 1) / 2 = n2 - 2n ≈ n2 = O(n2) ie
 // Space Complexity = we are not using any extra data structure hence our space complexity would be O(1)
