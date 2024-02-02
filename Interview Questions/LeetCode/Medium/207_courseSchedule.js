@@ -28,7 +28,7 @@
 
 /***********************************/
 
-// Iterative solution (dfs w adjacency list as array)
+// Iterative solution (dfs w adjacency list as array of arrays)
 
 // Time Complexity = O(n + m) => n = numCourses, m = prerequisites.length
 // Space Complexity = O(n + n + n) => O(n)
@@ -44,7 +44,8 @@
  * @return {boolean}
  */
 var canFinish = function (numCourses, prerequisites) {
-	// build adjacency list as array
+	// build adjacency list as array of arrays
+	// ie array index matches the course, and element at index is an array of prereqs
 	const adjList = Array.from({ length: numCourses }, () => []);
 	for (const [course, req] of prerequisites) {
 		adjList[course].push(req);
@@ -81,64 +82,92 @@ var canFinish = function (numCourses, prerequisites) {
 
 /***********************************/
 
-// Iterative solution (dfs with map)
+// Iterative solution (dfs with prereqs map and second dfs parameter (new Set()) for tracking checked nodes )
 
-// Time Complexity =
-// Space Complexity =
-
-/*
-
-*/
+// Time Complexity = O(n + m) => n = numCourses, m = prerequisites.length
+// Space Complexity = O(n) + O(n) + O(n) => O(n)
 
 /**
  * @param {number} numCourses
  * @param {number[][]} prerequisites
  * @return {boolean}
  */
+
 var canFinish = function (numCourses, prerequisites) {
-	// produces map of entries in the form of:
-	// { [course]: [...prerequisites] }
-	const map = {};
-	for (const course of numCourses) {
-		map[course] = [];
+	// Build prereq map
+	let prereqs = {};
+	for (let i = 0; i < prerequisites.length; i++) {
+		if (prerequisites[i][0] in prereqs) {
+			prereqs[prerequisites[i][0]].push(prerequisites[i][1]);
+		} else {
+			prereqs[prerequisites[i][0]] = [prerequisites[i][1]];
+		}
 	}
 
-	prerequisites.forEach((element) => {
-		map[element[0]] = [...map[element[0]], element[1]];
-	});
+	// tracks courses with all prereqs checked and validated
+	let finished = new Set();
 
-	console.log({ map });
+	// recursive function that checks if a course's prereqs are valid
+	const canFinishCoursePrereqs = function (course, checking) {
+		if (finished.has(course)) return true;
+		if (!(course in prereqs)) return true;
+		if (checking.has(course)) return false; // loop found in preqreqs, ie Course A has Course A as one of its prereqs
+		checking.add(course);
+		for (let prereq of prereqs[course]) {
+			if (!canFinishCoursePrereqs(prereq, checking)) {
+				return false;
+			}
+		}
+		finished.add(course);
+		return true;
+	};
+
+	for (let i = 0; i < numCourses; i++) {
+		if (!canFinishCoursePrereqs(i, new Set())) return false;
+	}
+	return true;
+};
+
+/*********************************/
+
+// Iterative solution (dfs with prereqs map and global set for tracking checked nodes )
+
+// Time Complexity = O(n + m) => n = numCourses, m = prerequisites.length
+// Space Complexity = O(n) + O(n) => O(n)
+
+// uses a global visited set (instead of passing in a new 'checking' set for each dfs call like Solution 2)
+// uses an empty array in prereqsMap to indicate a course with all prereqs validated (instead of a global 'finished' set like Solution 2)
+
+var canFinish = function (numCourses, prerequisites) {
+	const prereqsMap = {};
+	for (let i = 0; i < prerequisites.length; i++) {
+		if (prerequisites[i][0] in prereqsMap) {
+			prereqsMap[prerequisites[i][0]].push(prerequisites[i][1]);
+		} else {
+			prereqsMap[prerequisites[i][0]] = [prerequisites[i][1]];
+		}
+	}
 
 	const visited = new Set();
 
-	// want to check whether a course has valid prerequisites
-	// No prereq => a node without an incoming edge in a graph
-	// Yes prereq => a node with an incoming edge in a graph
-	// For each of the prereqs, recur the dfs function to check their prereqs
-	// If we hit an already visited node, we've found a loop => impossible to fulfill the prereqs!
 	const dfs = function (course) {
-		console.log("init course:", course);
-		console.log("initi visited:", visited.keys());
-		console.log("visited.has(course)", visited.has(course));
-		if (visited.has(course)) return false; // course w a prereq that we've already visited
-		console.log("map[course.toString()]", map[course.toString()]);
-		if (map[course.toString()].length === 0) return true; // course w no prereqs
+		if (visited.has(course)) return false;
+		if (prereqsMap[course] === undefined || prereqsMap[course] === [])
+			return true; // course with no prereqs or all prereqs validated
 		visited.add(course);
 
-		map[course.toString()].forEach((prereq) => {
-			console.log("inner foreach w preqreq", prereq);
+		for (let prereq in prereqsMap[course.toString()]) {
 			if (!dfs(prereq)) return false;
-		});
-		visited.delete(course);
-		console.log("set afer delete", visited.keys());
+		}
 
-		map[course.toString()] = [];
+		visited.delete(course);
+
+		prereqsMap[course.toString()] = []; // indicates course w all prereqs validated
 
 		return true;
 	};
 
 	for (let i = 0; i < numCourses; i++) {
-		console.log({ i });
 		if (!dfs(i)) return false;
 	}
 	return true;
