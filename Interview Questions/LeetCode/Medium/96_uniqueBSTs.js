@@ -16,48 +16,51 @@
 
 /***********************************/
 
-// Iterative solution (optimal with dynamic programming)
+/*
+1. Go through the simplest cases first ie numTrees(1), numTrees(2) etc.
+2. [[1, 1], [2, 2], [3, 5]] => This might look like fibonacci but NOT EXACTLY
+3. What we really want is the possible number of left and right subtrees SUMMED UP FOR ALL CASES 1...N WITH N AS THE ROOT NODE
 
-// Time complexity = O(logN)
-// Space complexity = O(N)
+4. EG for n = 4:
 
-// use array for dp
-var numTrees = function (n) {
-	let dp = [1, 1],
-		sum = 0;
-	for (let i = 2; i <= n; i++) {
-		for (let j = 1; j <= i; j++) {
-			// j = the number of left subtree node
-			let right = i - j; // num of right nodes
-			let left = i - right - 1; // num of left nodes
-			sum = dp[right] * dp[left] + sum;
-		}
-		dp.push(sum);
-		sum = 0;
-	}
-	return dp[n];
-};
+numTrees(4) = numTreesWithRoot1 (numTrees(0) + numTrees(3)) + numTreesWithRoot2 (numTrees(1) + numTrees(2)) + numTreesWithRoot3 (numTrees(2) + numTrees(1)) + numTreesWithRoot4 (numTrees(3) + numTrees(0))
 
-// Can be written even simpler
+5. So we want to know numTrees for any given input i from 0...n-1. We will track this with a DP array. 
+6. We know the first two cases:  
 
-// var numTrees = function (n) {
-// 	let dp = Array(n + 1).fill(0);
+dp(0) = 1 // Empty subtree case
+dp(1) = 1 // Single node subtree case 
 
-// 	dp[0] = 1;
-// 	dp[1] = 1;
-
-// 	for (let i = 2; i <= n; i++) {
-// 		for (let j = 1; j <= i; j++) {
-// 			dp[i] += dp[j - 1] * dp[i - j];
-// 		}
-// 	}
-
-// 	return dp[n];
-// };
+7. We fill in the rest (dp(2)...dp(n)) to calculate the final answer
+*/
 
 /***********************************/
 
-// Recursive solution (with dynamic programming)
+// Iterative solution (with dynamic programming array)
+
+// Time complexity = O(n)
+// Space complexity = O(n)
+
+// use array for dp
+var numTrees = function (n) {
+	let dp = [1, 1];
+
+	for (let i = 2; i <= n; i++) {
+		let total = 0;
+		for (let root = 1; root <= i; root++) {
+			let left = root - 1;
+			let right = i - root;
+			total += dp[left] * dp[right];
+		}
+		dp.push(total);
+	}
+
+	return dp[n];
+};
+
+/***********************************/
+
+// Recursive solution (with dynamic programming object)
 
 // Time complexity = O(logN)
 // Space complexity = O(N)
@@ -67,29 +70,22 @@ var numTrees = function (n) {
  * @return {number}
  */
 var numTrees = function (n) {
-	let uniques = { 0: 1, 1: 1, 2: 2 };
-	if (!!uniques[n]) return uniques[n];
-	let total = 0;
-	// recursively add uniques for all subtree combinations
-	// add to hash for dynamic programming
-	for (let i = 0; i <= n - 1; i++) {
-		let l, r;
-		// multiply uniques on left subtree and right subtree
-		if (!!uniques[i]) {
-			l = uniques[i];
-		} else {
-			l = numTrees(i);
-			uniques[i] = l;
+	let dp = {}; // tracks key:value pairs for keys from 2...n-1
+
+	const getCount = (n) => {
+		if (dp[n] !== undefined) return dp[n];
+		if (n <= 1) return 1; // handles first two cases (empty node and single node subtrees)
+
+		let count = 0;
+
+		// i = possible positions of root node in n
+		for (let i = 1; i <= n; i++) {
+			count += getCount(i - 1) * getCount(n - i);
 		}
-		if (!!uniques[n - 1 - i]) {
-			r = uniques[n - 1 - i];
-		} else {
-			r = numTrees(n - 1 - i);
-			uniques[n - 1 - i] = r;
-		}
-		total += l * r;
-	}
-	return total;
+
+		return (dp[n] = count);
+	};
+	return getCount(n);
 };
 
 /***********************************/
