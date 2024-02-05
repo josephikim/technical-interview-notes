@@ -25,19 +25,32 @@
 // s consists of brackets only ie '()[]{}'
 
 /***********************************/
+/*
+
+O(n) - Use stack-like (array) to store opening brackets
+Use map lookups for true O(n)
+Otherwise will be slower ie O(n) + O(n) if using Array.includes()
+
+0. Init array to use as stack
+2. Init map for complement character lookups
+3. For each character in string:
+4. If it's opening bracket, push to array
+5. If it's closing bracket, pop out last element in array and check if it matches current character's complement.
+6. A valid string should result in empty stack at end of loop
+
+*/
+/***********************************/
 
 /*
  * @param {string} s
  * @return {boolean}
  */
 
-// Time commplexity = O(n) worst case
-// Space complexity = O(n) worst case
-// ie n = s.length
-// stack = O(n), bracketMap = O(1)
-//
-// use map to access character matches instead of switch statement or array.indexOf()
-// use arr as a 'stack' to track opening brackets
+// Time commplexity = O(n),  n = s.length
+// Space complexity = O(1) for bracket map
+
+// use character map for O(1) lookups instead of array.indexOf() or array.includes()
+
 var isValid = function (s) {
 	const stack = [];
 	const bracketMap = {
@@ -47,12 +60,14 @@ var isValid = function (s) {
 	};
 
 	for (const char of s) {
+		// if closing bracket
 		if (bracketMap.hasOwnProperty(char)) {
-			const topItem = stack.length === 0 ? "*" : stack.pop();
-			if (topItem !== bracketMap[char]) {
+			const topItemInStack = stack.length === 0 ? "*" : stack.pop();
+			if (topItemInStack !== bracketMap[char]) {
 				return false;
 			}
 		} else {
+			// if opening bracket
 			stack.push(char);
 		}
 	}
@@ -60,9 +75,18 @@ var isValid = function (s) {
 	return stack.length === 0;
 };
 
-// Naive solution
+/***********************************/
 
-// use an array to track opening brackets, and pop them out as closing brackets are encountered
+// Stack-based solution
+
+// Use an array as a stack (ie a FILO array (first in last out))
+// NOT a FIFO array (first in first out) e.g. a BFS queue
+
+// iterate through characters
+// if opening bracket, store required closing bracket in stack
+// else, pop out last stack element and check if matches current character
+// valid string should result in empty stack
+
 // var isValidBasic = function(s) {
 //     if (s.length % 2 !== 0 ) return false
 
@@ -94,11 +118,9 @@ var isValid = function (s) {
 //     // })
 // };
 
-// Another naive solution
+/************************/
 
-// Need to use "stack" data structure
-// A Stack is basically a FILO array (first in last out)
-// As opposed to FIFO array (first in first out) e.g. the queue array in binary tree BFS
+// Same logic as above
 
 // let isBalanced = (input) => {
 //   let brackets = "[]{}()";
