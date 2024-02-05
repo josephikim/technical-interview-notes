@@ -28,6 +28,40 @@
 // Follow-up: Can you come up with an algorithm that is less than O(n^2) time complexity?
 
 /***********************************/
+/*
+
+O(n^2) - Brute Force
+
+This works for an unsorted array of integers
+
+1. Set up 2 nested for loops with i starting at 0 and j starting at i + 1
+2. Add element at i with element at j
+3. compare the sum with the target
+4. If sum is equal to target, return the indices of these two elements as the answer
+5. If sum is not equal to target, contiue looping
+
+O(nlogn) - Two Pointers including sorting
+Note: O(n) if array is presorted
+
+1. Sort input array
+2. Set two pointers i = 0, j = array.length - 1
+3. check sum of values at pointers
+4. if sum is greater than target, decrement right pointer
+5. if sum is less than target, increment left pointer
+
+O(n) - Hash map
+Use map to store {[complement]: elementIndex]} pairs for each visisted element in array
+This works for unsorted array
+This means you have to do one loop at most
+
+1. Init map
+2. For each element in array, check if complement (target sum - current element) exits in the map.
+3. If found, return answer as [map[complement], currentElementIndex].
+4. Otherwise update map with {[complement]: currentElementIndex]}
+5. Repeat steps 2 - 4 until you find the answer.
+
+*/
+/***********************************/
 
 // Iterative solution (sorted array with two pointers)
 
@@ -62,25 +96,23 @@ const twoSumSorted = (nums, target) => {
 // Time complexity = O(n)
 // Space complexity = O(n)
 
-// Algo
-// Use map or object to store a reference to each visisted element in nums - this means you only have to do one loop at most
+// Use map or object to store an index reference to each visisted element in nums - this means you only have to do one loop at most
 
 // 1. Init map
-// 2. Loop each element in nums
-// 3. In each iteration check if target difference (ie target sum - current number) is present in the map.
-// 4. If present, return [map[target], current index] as result.
-// 5. Otherwise add the target difference as map's key and current index as value.
-// 6. Repeat steps 3 - 5 until you find the result.
+// 2. For each element in array, check if complement (target sum - current element) exits in the map.
+// 3. If found, return answer as [map[complement], currentElementIndex].
+// 4. Otherwise update map with {[complement]: currentElementIndex]}
+// 5. Repeat steps 2 - 4 until you find the answer.
 
 const twoSumWithMap = (nums, target) => {
 	// create map to store indices of visited array elements
 	let hash = new Map();
 
 	for (let i = 0; i < nums.length; i++) {
-		// Check if map contains match for target difference
-		let difference = target - nums[i];
-		if (hash.has(difference)) {
-			return [hash.get(difference), i];
+		// Check if map contains match for required complement
+		let complement = target - nums[i];
+		if (hash.has(complement)) {
+			return [hash.get(complement), i];
 		} else {
 			hash.set(nums[i], i);
 		}
@@ -115,7 +147,7 @@ const twoSumWithMap = (nums, target) => {
 
 // Iterative solution (brute force)
 
-// Time Complexity = n * (n - 1) / 2 = n2 - 2n ≈ n2 = O(n2) ie
+// Time Complexity = n * (n - 1) / 2 = n2 - 2n ≈ n2 = O(n^2) ie
 // Space Complexity = we are not using any extra data structure hence our space complexity would be O(1)
 
 // Set up nested loops with i starting at 0 and j starting at i + 1
