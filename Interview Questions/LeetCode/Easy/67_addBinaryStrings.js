@@ -17,7 +17,39 @@
 
 // NOTE: Cannot convert the input strings into decimals, add them, and convert the number into a string, as it exceeds memory allotted for a 64-bit integer.
 
-/***********************************/
+/**********************************
+
+NOTE: When you need to convert an octal or hexadecimal string to a number, use the function parseInt(str,base). Consider these examples:
+
+octalStr='377';
+num = parseInt(octalStr,8);  // num now holds 255
+
+hexStr='7F';
+num = parseInt(hexStr,16);   // num now holds 127
+
+---------------------
+
+O(n) - Convert to BigInts ("Cheating" shortcut)
+
+1. convert binary strings to JS binary number syntax
+2. convert to BigInts and sum
+3. return sum as binary string using BigInt.prototype.toString() with radix 2
+
+O(n) - Manually implement bitwise functions
+This will still be constance space complexity (O(1)) but more than BigInt solution
+
+1. Manually build out bitwise operations (logic gates), halfAdder, fullAdder, and padZeroes
+2. Do bitwise arthmetic on binary strings with padded zeroes
+
+O(n) - Manually implement bitwise adding
+This will still be constance space complexity (O(1)) but more than BigInt solution
+
+1. Manually build out bitwise operations (logic gates), halfAdder, fullAdder, and padZeroes
+2. Do bitwise arthmetic on binary strings with padded zeroes
+
+Note: The last O(n) solution below is essentially the same as bitwise adding solution but with unnecessary calls to Array.reverse()
+
+**********************************/
 
 // Iterative solution (optimal using bigint)
 
@@ -42,7 +74,7 @@ var addBinary = function (a, b) {
 
 /***********************************/
 
-// Iterative solution (manually build out functions for bitwise operations (logic gates), halfAdder, fullAdder, and padZeroes)
+// Iterative solution (manually build out bitwise operations (logic gates), halfAdder, fullAdder, and padZeroes)
 
 // Time complexity = O(n)
 // Space complexity = O(1)
@@ -129,8 +161,7 @@ function padZeroes(a, b) {
 
 // Iterative solution (naive)
 
-// same logic as below but less complexity
-// Time complexity = O(n)
+// Time complexity = O(n) + O(n) for Array.reverse => O(n)
 // Space complexity = O(1)
 
 var addBinary = function (a, b) {
@@ -154,70 +185,3 @@ var addBinary = function (a, b) {
 
 	return result.reverse().join("");
 };
-
-// Iterative solution (naive)
-
-// Time complexity = O(n)
-// Space complexity = O(n) for aReversed, bReversed and cReversed
-
-// 1. write a function addBinaryDigit() that adds 2 binary digits and returns the result digit with optional carry
-// 2. create reversed integer array from a and b
-// 3. loop through arrays, addBinaryDigit for a[i] and b[i]
-// 4. push resulting digit to sum array, push carry to carry array c
-// 5. continue looping until both a[i] and b[i] are undefined and c[i] === 0
-// 4. return sum array as a reversed string
-
-// /**
-//  * @param {string} a
-//  * @param {string} b
-//  * @return {string}
-//  */
-// var addBinary = function (a, b) {
-// 	if (a === "0" && b === "0") return "0";
-// 	// adds 2 binary digits with optional carry and returns array [digit, carry]
-// 	var addBinaryDigit = function (a, b, c = 0) {
-// 		let result = [0, 0];
-// 		if (a === 0 && b === 0) {
-// 			if (c === 1) {
-// 				result = [1, 0];
-// 			}
-// 		}
-// 		if ((a === 1 && b === 0) || (a === 0 && b === 1)) {
-// 			if (c === 0) {
-// 				result = [1, 0];
-// 			} else {
-// 				result = [0, 1];
-// 			}
-// 		}
-// 		if (a === 1 && b === 1) {
-// 			if (c === 0) {
-// 				result = [0, 1];
-// 			} else {
-// 				result = [1, 1];
-// 			}
-// 		}
-// 		return result;
-// 	};
-
-// 	let aReversed = Array.from(a).map(Number).reverse();
-// 	let bReversed = Array.from(b).map(Number).reverse();
-// 	let cReversed = [0];
-// 	let sumReversed = [];
-// 	let i = 0;
-
-// 	while (
-// 		aReversed[i] !== undefined ||
-// 		bReversed[i] !== undefined ||
-// 		cReversed[i] !== 0
-// 	) {
-// 		let [digit, carry] = addBinaryDigit(
-// 			aReversed[i] ?? 0,
-// 			bReversed[i] ?? 0,
-// 			cReversed[i] ?? 0
-// 		);
-// 		sumReversed.push(digit);
-// 		cReversed.push(carry);
-// 		i++;
-// 	}
-// 	return sumReversed.reverse().join("");
-// };
