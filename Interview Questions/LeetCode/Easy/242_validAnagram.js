@@ -20,7 +20,22 @@
 
 // Follow up: What if the inputs contain Unicode characters? How would you adapt your solution to such a case?
 
-/***********************************/
+/**********************************
+
+O(n) - Use 0-indexed Frequency array based on unicode char codes
+
+1. create one freq array, length 26
+2. loop through both strings simultaneously, get char code for element from each array
+3. for elements from S, increment freq array
+4. for elements from T, decrement freq array
+5. loop through freq array and verify all values are 0
+
+O(n) - Use frequency map(s) of characters
+
+1. create two freq maps, for s and t
+2. compare if the two freq maps are equal
+
+***********************************/
 
 // Optimal solution using UNICODE CODE POINTS
 

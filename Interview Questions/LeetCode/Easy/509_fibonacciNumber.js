@@ -29,8 +29,8 @@
 
 /***********************************/
 
-// Iterative solution (store results in hash or arr)
-// More efficient than recursive solution without memoization (see Dynamic Programming)
+// Iterative solution (Bottom-Up dynamic programming)
+// More efficient than recursive solution without memoization
 
 // Time complexity = O(n)
 // Space complexity = O(1) if we dont count result arr
