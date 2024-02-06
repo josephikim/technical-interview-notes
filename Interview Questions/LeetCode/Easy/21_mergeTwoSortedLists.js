@@ -21,7 +21,24 @@
 // -100 <= Node.val <= 100
 // Both list1 and list2 are sorted in non-decreasing order.
 
-/***********************************/
+/**********************************
+
+O(n) - Recursive stitching (in place)
+
+1. Handle base cases: reached list1 end or list2 end;
+2. Use recursion to stitch sublists together one node at a time.
+3. Two different recurrence relationships: 
+	- list1.next = merged(list1.next, list2)	
+	- list2.next = merged(list2.next, list1)
+
+O(n) - Recursive stitching into new Linked List
+
+1. Init new linked list with dummy head IE new ListNode(-1)
+2. Init pointer, set to dummy head
+3. Loop through two linked lists and update list1, list2, pointer.next and pointer incrementally
+4. append any remaining list1 or list2 to pointer.next
+
+***********************************/
 
 // Optimal solution
 // Time commplexity = O(n) worst case
