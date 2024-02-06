@@ -52,7 +52,27 @@
 // 1 <= tokens.length <= 104
 // tokens[i] is either an operator: "+", "-", "*", or "/", or an integer in the range [-200, 200].
 
-/***********************************/
+/**********************************
+
+O(n) - Map operations symbols to inline arithmetic functions
+
+1. Map operations symbols to inline arithmetic functions
+2. init empty stack
+3. Loop through tokens array. ParseInt each token
+4. If parsed token is a number, push to stack
+5. Otherwise, pop last two elements in stack, apply mapped function, push result to stack
+6. return remaining number in stack
+
+O(n) => Map operations symbols to dedicated arithmetic functions
+
+1. create functions for arithmetic ops and a map of operation symbols with corresponding arithmetic function
+2. init empty stack
+3. loop through token array, for each token:
+4. if token not found in map (ie not an operation symbol), push to stack
+5. otherwise, pop last two elements in stack, parse using parseInt, apply mapped function using two elements, push result value to stack
+6. return remaining number in stack
+
+***********************************/
 
 // Iterative solution
 

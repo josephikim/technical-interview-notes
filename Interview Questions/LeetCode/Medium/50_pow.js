@@ -24,7 +24,7 @@
 
 /***********************************/
 
-// JS solution (optimal recursive)
+// JS solution (recursive)
 
 // Time complexity = O(log N) because pow(x,n/2) is calculated and then stored for again using the same result.
 // Space complexity = O(1)
@@ -46,13 +46,13 @@ var myPow = function (x, n) {
 	if (n == 1) return x;
 	if (n == -1) return 1 / x;
 
-	let res = myPow(x, Math.floor(n / 2));
+	let result = myPow(x, Math.floor(n / 2));
 
 	// if power is even
 	if (n % 2 == 0) {
-		return res * res;
+		return result * result;
 	} else {
-		return x * res * res;
+		return x * result * result;
 	}
 };
 
