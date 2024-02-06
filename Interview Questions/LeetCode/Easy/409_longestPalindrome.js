@@ -19,7 +19,23 @@
 // 1 <= s.length <= 2000
 // s consists of lowercase and/or uppercase English letters only.
 
-/***********************************/
+/**********************************
+
+O(n) - Use Frequency Set()
+
+1. init frequency Set() and maxPalindromeLength = 0;
+2. loop through s, search for char in Set
+3. If not found, push into Set
+4. If found, add 2 to maxPalindromeLength, and delete the that char from Set, 
+5. After looping, add 1 to maxPalindromeLength if any elements remain in Set (ie set.size is true) 
+
+O(n) - Use Frequency map 0-indexed by unicode char code
+
+1. init freq array length 52 (Uppercase and lowercase letters)
+2. loop through string and fill up freq array based on unicode char codes
+3. loop through freq array and calculate total length of max palindrome
+
+***********************************/
 
 // Iterative solution (optimal)
 
