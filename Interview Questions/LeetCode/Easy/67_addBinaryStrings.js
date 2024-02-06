@@ -19,20 +19,10 @@
 
 /**********************************
 
-NOTE: When you need to convert an octal or hexadecimal string to a number, use the function parseInt(str,base). Consider these examples:
-
-octalStr='377';
-num = parseInt(octalStr,8);  // num now holds 255
-
-hexStr='7F';
-num = parseInt(hexStr,16);   // num now holds 127
-
----------------------
-
 O(n) - Convert to BigInts ("Cheating" shortcut)
 
-1. convert binary strings to JS binary number syntax
-2. convert to BigInts and sum
+1. convert binary strings to JS binary literal syntax
+2. convert to BigInts and sum the two values
 3. return sum as binary string using BigInt.prototype.toString() with radix 2
 
 O(n) - Manually implement bitwise functions

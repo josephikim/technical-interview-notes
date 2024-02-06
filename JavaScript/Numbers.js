@@ -53,7 +53,7 @@ console.log((1).constructor === Number); //true
 
 // This returns an integer from 0 to 'max', bc Math.floor() cuts off the decimal portion of the number produced by multiplying max by the floating number returned by Math.random();
 function getRandomInt(max) {
-  return Math.floor(Math.random() * max);
+	return Math.floor(Math.random() * max);
 }
 
 console.log(getRandomInt(3));
