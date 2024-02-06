@@ -6,10 +6,12 @@
 
 // Input: ransomNote = "a", magazine = "b"
 // Output: false
+
 // Example 2:
 
 // Input: ransomNote = "aa", magazine = "ab"
 // Output: false
+
 // Example 3:
 
 // Input: ransomNote = "aa", magazine = "aab"
@@ -17,44 +19,36 @@
 
 // Constraints:
 
-// 1 <= ransomNote.length, magazine.length <= 105
+// 1 <= ransomNote.length, magazine.length <= 10^5
 // ransomNote and magazine consist of lowercase English letters.
 
-/***********************************/
+/**********************************
 
-// Optimal solution 1
+O(n) - Build a frequency map
 
-// Time complexity = O(N * M);  N = magazine.length, M = ransomNode.length
-// Space complexity = O(1)
+1. loop through magazine and build char frequency map (could be object keyed by char, or array 0-indexed by unicode char code)
+2. loop through ransomNote and decrement corresponding value in frequency map
+3. if frequency is not decrementable, return false
+4. otherwise return true
 
-// loop through ransomNote
-// if char is found in magazine, create a new string to replace magazine that excludes the found character
+O(n^2) - Replace string with reconstructed substring
 
-/**
- * @param {string} ransomNote
- * @param {string} magazine
- * @return {boolean}
- */
-var canConstruct = function (ransomNote, magazine) {
-	for (let i = 0; i < ransomNote.length; i++) {
-		const symbolIndex = magazine.indexOf(ransomNote[i]);
-		if (symbolIndex > -1) {
-			magazine =
-				magazine.substring(0, symbolIndex) +
-				magazine.substring(symbolIndex + 1, magazine.length);
-		} else {
-			return false;
-		}
-	}
-	return true;
-};
+1. loop through ransomNote. For each char:
+2. if not found in magazine, return false
+3. else, create new string to replace magazine comprised of two substrings adjacent to matching char
 
-/***********************************/
+O(n^2) - Use String.replace()
 
-// Optimal solution 2
+1. loop through ransomNote and replace corresponding char in magazine with '' 
+2. if no replacement occurs (ie magazine was unchanged), then searched char did not exist => return false
+3. otherwise return true
 
-// Time complexity = O(N + M);  N = magazine.length, M = ransomNode.length
-// Space complexity = O(N) = N = magazine.length
+***********************************/
+
+// Build a frequency map/array
+
+// Time complexity = O(n + m) => O(n);  n = magazine.length, m = ransomNote.length
+// Space complexity = O(n)
 
 // loop through magazine and construct a frequency map
 // loop through ransomNote and decrement frequency map accordingly
@@ -99,10 +93,10 @@ var canConstruct = function (ransomNote, magazine) {
 
 /***********************************/
 
-// Optimal solution 3
+// Use String.replace()
 
-// Time complexity = O(N + M);  N = magazine.length, M = ransomNode.length
-// Space complexity = O(N) = N = magazine.length
+// Time complexity = O(m * n) => O(n^2);  n = magazine.length, m = ransomNote.length
+// Space complexity = O(1)
 
 // loop through ransomNote and replace corresponding char in magazine with '' (ie remove char from magazine)
 // if no replacement occurs (ie magazine was unchanged), then searched char did not exist
@@ -119,6 +113,35 @@ var canConstruct = function (ransomNote, magazine) {
 			return false;
 		}
 		magazine = m;
+	}
+	return true;
+};
+
+/***********************************/
+
+// Replace string with reconstructed substrings
+
+// Time complexity = O(m * n) => O(n^2);  n = magazine.length, m = ransomNote.length
+// Space complexity = O(1)
+
+// loop through ransomNote
+// if char is found in magazine, create a new string to replace magazine that excludes the found character
+
+/**
+ * @param {string} ransomNote
+ * @param {string} magazine
+ * @return {boolean}
+ */
+var canConstruct = function (ransomNote, magazine) {
+	for (let i = 0; i < ransomNote.length; i++) {
+		const symbolIndex = magazine.indexOf(ransomNote[i]);
+		if (symbolIndex > -1) {
+			magazine =
+				magazine.substring(0, symbolIndex) +
+				magazine.substring(symbolIndex + 1, magazine.length);
+		} else {
+			return false;
+		}
 	}
 	return true;
 };
