@@ -24,7 +24,15 @@
 // 1 <= s.length <= 2 * 105
 // s consists only of printable ASCII characters.
 
-/***********************************/
+/**********************************
+
+O(n) - Array.reverse()
+
+1. Optional - Use regex replace() to strip non-alphanumeric characters (this adds linear complexity)
+2. Crate a reversed string with str.split or [...str] then Array.reverse()
+3. compare reversed with original string
+
+***********************************/
 
 // Optimal solution
 // Time complexity = O(n)
