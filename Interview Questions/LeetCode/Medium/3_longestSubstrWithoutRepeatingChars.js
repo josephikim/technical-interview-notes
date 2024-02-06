@@ -1,33 +1,54 @@
 // Given a string s, find the length of the longest
-// substring without repeating characters.
+// substring (consisting of consecutive letters) without repeating characters.
 
 // Example 1:
 
 // Input: s = "abcabcbb"
 // Output: 3
 // Explanation: The answer is "abc", with the length of 3.
+
 // Example 2:
 
 // Input: s = "bbbbb"
 // Output: 1
 // Explanation: The answer is "b", with the length of 1.
+
 // Example 3:
 
 // Input: s = "pwwkew"
 // Output: 3
 // Explanation: The answer is "wke", with the length of 3.
+
 // Notice that the answer must be a substring, "pwke" is a subsequence and not a substring.
 
 // Constraints:
 
-// 0 <= s.length <= 5 * 104
+// 0 <= s.length <= 5 * 10^4
 // s consists of English letters, digits, symbols and spaces.
 
-/***********************************/
+/**********************************
+
+O(n) - Use pointer for index of valid substring
+
+1. init substring pointer at 0
+2. For each char in string:
+3. Check substring from pointer to char position for any matches
+4. If match found, update substring pointer
+5. Update maxLength based on substring length
+
+O(n^2) - Use array of unicode char codes
+
+1. init substring array and max = 0
+2. For each char in string, get char.charCodeAt()
+3. Check if char code conflicts with any char code in array
+4. If conflict found, splice array up to and including conflicting value
+5. Push char code into array and update max based on array.length
+
+***********************************/
 
 // Iterative solution (improved)
 
-// Time complexity =
+// Time complexity = O(n)
 // Space complexity = O(n) for subStr array
 
 // Note: conversion of chars to UTF-16 code units is not necessary, assuming the input space only includes characters that can be represented by a single code unit.
@@ -55,6 +76,7 @@ var lengthOfLongestSubstring = function (s) {
 				break;
 			}
 		}
+		// update max length
 		if (i - k + 1 > maxLength) {
 			maxLength = i - k + 1;
 		}
@@ -92,7 +114,7 @@ var lengthOfLongestSubstring = function (s) {
 		let i = 0;
 		while (i < subStr.length) {
 			if (subStr[i] === code) {
-				subStr.splice(0, i + 1);
+				subStr.splice(0, i + 1); // splice(startIndex, deleteCount)
 				break;
 			}
 			i++;
