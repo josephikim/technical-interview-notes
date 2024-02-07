@@ -69,7 +69,30 @@
  *
  */
 
-/*******************************/
+/**********************************
+
+O(n) - DFS using Map
+
+1. Init map oldToNew
+2. Create DFS function:
+	- check map for cloned target, if found, return clone
+	- else create new clone using target.val and add to map
+	- loop through target node's neighbors and push the result of a recursive dfs call on each into cloned node
+	- return cloned node
+3. Run DFS function on head node
+
+O(n) - DFS using stack
+
+1. init clone Map<node, cloneNode>
+2. init traversed Set()
+3. init DFS stack as array
+4. use the Set to avoid circular path
+5. traverse stack starting with top of stack
+6. for each neighbor, if not cloned, create a new node and connect it to the current node
+7. if not traversed, push neighbor into stack
+8. return cloned input node
+
+***********************************/
 
 // Iterative solution (DFS - optimized)
 
@@ -122,16 +145,16 @@ var cloneGraph = function (node) {
 
 /***********************************/
 
-// Iterative solution (DFS)
+// Iterative solution (DFS using stack)
 
 // Time complexity = O(n) => n = num of nodes
 // Space complexity = O(n) => clones and traversed are both O(n)
 
 // 1. init clone Map<node, cloneNode>
 // 2. init traversed Set()
-// 3. use DFS to traverse the graph
+// 3. init DFS stack as array
 // 4. use the Set to avoid circular path
-// 5. traverse stack starting with top
+// 5. traverse stack starting with top of stack
 // 6. for each neighbor, if not cloned, create a new node and connect it to the current node
 // 7. if not traversed, push neighbor into stack
 // 8. return cloned input node
@@ -157,7 +180,7 @@ var cloneGraph = function (node) {
 
 	clones.set(node, new Node(node.val));
 
-	while (queue.length > 0) {
+	while (stack.length > 0) {
 		const top = stack.pop();
 		if (traversed.has(top)) {
 			continue;
