@@ -27,18 +27,19 @@
 
 // Follow up: Can you solve it using O(1) (i.e. constant) memory?
 
-/***********************************/
+/**********************************/
 
-// Optimal solution
-
-// Time complexity = O(N) (N = list length)
+// Time complexity = O(n) (n = list length)
 // Space complexity = O(1)
 
-// use hare and tortoise algo
-// check if tortoise and hare equals the same node or if tortoise or hare equals null (reached end of normal linked list)
-// use STRICT EQUALITY check to ensure cycle exists (not two different nodes that have same node.val)
+// use hare and tortoise algo (hare move twice as fast as tortoise. If a loop exists, guaranteed that tortoise and hare will eventually land on same node)
+// init hare and tortoise pointers at head
+// move tortoise one node, move hare two nodes
+// if tortoise and hare points to same node (loop found)
+// if tortoise or hare equals null (reached end of normal linked list => No loop exists)
 
-// NOTE: hasCycle and hasCycleAlt are the same algo, just different readability
+// Note: Use STRICT EQUALITY check to ensure tortoise and hare is at same node (not two different nodes with same node.val)
+
 /**
  * Definition for singly-linked list.
  * function ListNode(val) {
@@ -54,8 +55,11 @@ var hasCycle = function (head) {
 		fast = fast.next.next;
 		if (head === fast) return true;
 	}
+	// if while loop breaks, fast has reached end of non-looping linked list
 	return false;
 };
+
+// Same logic as tortoise and hare, just different readability
 
 // var hasCycleAlt = function (head) {
 // 	if (head === null) return false;
@@ -69,38 +73,4 @@ var hasCycle = function (head) {
 // 	}
 
 // 	return false;
-// };
-
-/***********************************/
-
-// Naive solution
-
-// Time complexity = O(N) N = list length
-// Space complexity = O(N) = map object with N entries
-
-// use a pointer node and keep track of all visited nodes using a map object
-// if the pointer reaches a node whose value has already been mapped, you know there's a cycle
-// NOTE: This solution is INCOMPLETE because it doesn't handle case of multiple nodes having the same value
-
-/**
- * Definition for singly-linked list.
- * function ListNode(val) {
- *     this.val = val;
- *     this.next = null;
- * }
- */
-
-// var hasCycle = function (head) {
-// 	if (!head) return false;
-// 	let map = {};
-// 	let pointer = head;
-// 	let index = 0;
-
-// 	while (pointer.next && map[pointer.next.val] == undefined) {
-// 		map[pointer.val] = index;
-// 		pointer = pointer.next;
-// 		index++;
-// 	}
-
-// 	return pointer.next !== null;
 // };
