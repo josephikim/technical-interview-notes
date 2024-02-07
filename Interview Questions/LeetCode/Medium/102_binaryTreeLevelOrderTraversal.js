@@ -20,7 +20,25 @@
 // The number of nodes in the tree is in the range [0, 2000].
 // -1000 <= Node.val <= 1000
 
-/***********************************/
+/**********************************
+
+O(n) - BFS
+
+1. Use a BFS queue and a variable to track the current level starting at 0
+2. Init the queue with root node.
+3. Loop current length of queue, pulling the first node each time using shif()
+4. Push the node's val to levels[level]
+5. Push any non-null child nodes into queue
+6. Once the level has been processed, increment levels variable
+
+O(n) - Recursive DFS
+
+1. Use a modified recursive dfs that also has a 'level' parameter
+2. increment the level parameter in the recurrence relation
+3. Call the recursions based on preorder (ie apply to node.left then node.right)
+r. In each recursion, se the level parameter as the index in result array to push node's value into.
+
+***********************************/
 
 // Recursive solution (DFS)
 
@@ -45,9 +63,14 @@
  * @return {number[][]}
  */
 var levelOrder = function (root) {
+	let result = [];
+
 	var getLevelsPreorder = function (node, level) {
 		if (node) {
+			// init empty array for level that hasn't been visited
 			if (result.length === level) result.push([]);
+
+			// Push node to corresponding level in result (this works because of preorder)
 			result[level].push(node.val);
 			// process left child
 			getLevelsPreorder(node.left, level + 1);
@@ -55,7 +78,7 @@ var levelOrder = function (root) {
 			getLevelsPreorder(node.right, level + 1);
 		}
 	};
-	let result = [];
+
 	getLevelsPreorder(root, 0);
 	return result;
 };
