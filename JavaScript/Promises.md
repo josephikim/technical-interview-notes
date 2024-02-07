@@ -59,3 +59,68 @@ A race condition occurs when two or more asynchronous operations compete for the
 # Explain the concept of async/await and how it relates to Promises?
 
 The async/await is a syntax sugar for Promises in JavaScript. The async keyword defines an asynchronous function, and the await keyword waits for the result of a Promise. **This enables you to write asynchronous code that looks and behaves like synchronous code.** With these keywords, you can write asynchronous code that is easy to read and understand, which makes it easier to maintain and debug.
+
+# Implmenting your own Promise class
+
+```
+class MyPromise {
+	constructor(main) {
+		this.value = null;
+		this.callBacks = [];
+
+		resolve = (resolveValue) => {
+			console.log("resolve hit");
+			this.value = resolveValue;
+			this.triggerCallbacks();
+		};
+		reject = (rejectValue) => {
+			console.log("reject hit");
+			this.value = rejectValue;
+			this.triggerCallbacks();
+		};
+
+		main(resolve, reject);
+	}
+
+	then(cb) {
+		const next = new MyPromise((resolve) => {
+			this.callBacks.push((x) => resolve(cb(x)));
+		});
+		return next;
+		// this.callBacks.push(cb)
+	}
+
+	triggerCallbacks() {
+		this.callBacks.forEach((cb) => cb(this.value));
+	}
+}
+
+//  ------------------- Test resolve
+const resolveTest = new MyPromise((resolve, reject) => {
+	setTimeout(() => {
+		resolve("Success!");
+	}, 1000);
+});
+
+resolveTest
+	.then((value) => {
+		console.log("Resolved:", value); // LOG Resolved
+	})
+	.catch((reason) => {
+		console.error("Rejected:", reason);
+	});
+
+// Test reject
+const rejectTest = new MyPromise((resolve, reject) => {
+	setTimeout(() => {
+		reject("Error!");
+	}, 1000);
+});
+
+rejectTest
+	.then((value) => {
+		console.log("Resolved:", value);
+	})
+	.catch((reason) => {
+		console.error("Rejected:", reason); // LOG Rejected
+	});```

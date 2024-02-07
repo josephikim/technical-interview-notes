@@ -39,7 +39,25 @@
 // -100 <= nums[i] <= 100
 // nums is sorted in non-decreasing order.
 
-/***********************************/
+/**********************************
+
+O(n) - Iterative with simple reassignment
+
+1. Init k-index pointer = 1
+2. Loop nums with for loop starting with i = 1
+3. If element at i is greater than element at i-1 (ie if nums[i] is a valid unique), set nums[k] as nums[i] and increment k
+4. else, just increment i (k will remain steady, waiting for the next unique to be found)
+5. return k (this can be different than nums.length)
+
+O(n) - Iterative with splice()
+
+1. Init index pointer = 1
+2. Loop nums while (i < nums.length)
+3. If current element is greater than prev element, remove current element using splice
+4. else, increment index
+5. return updated nums.length
+
+***********************************/
 
 // Iterative solution (optimal)
 // NOTE: Sort of a trick question bc you might think you need to insert underscores. If you read closely, you just need to modify nums up to index k - 1, (and also return k)
@@ -71,7 +89,7 @@ var removeDuplicates = function (nums) {
 // Iterative solution
 
 /* Algorithm
-1. Init index pointer
+1. Init index pointer = 1
 2. Loop nums using while loop
 3. If current element is greater than prev element, remove current element using splice
 4. else, increment index

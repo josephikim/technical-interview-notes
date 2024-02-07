@@ -47,3 +47,37 @@ const decode = async (message_file) => {
 
 	return result;
 };
+
+// Generic "build pyramid" functions
+
+// print consecutive integers
+function generatePyramid() {
+	var totalNumberofRows = 5;
+	var output = "";
+	for (var i = 1; i <= totalNumberofRows; i++) {
+		for (var j = 1; j <= i; j++) {
+			output += j + "  ";
+		}
+		console.log(output);
+		output = "";
+	}
+}
+
+// print variable number of stars
+function pyramid(n) {
+	for (let i = 1; i <= n; i++) {
+		let str = " ".repeat(n - i);
+		let str2 = "*".repeat(i * 2 - 1);
+		console.log(str + str2 + str);
+	}
+}
+
+// print all stars
+function createPyramid(rows) {
+	for (let i = 0; i < rows; i++) {
+		var output = "";
+		for (let j = 0; j < rows - i; j++) output += " ";
+		for (let k = 0; k <= i; k++) output += "* ";
+		console.log(output);
+	}
+}

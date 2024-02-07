@@ -1,0 +1,61 @@
+class MyPromise {
+	constructor(main) {
+		this.value = null;
+		this.callBacks = [];
+
+		resolve = (resolveValue) => {
+			console.log("resolve hit");
+			this.value = resolveValue;
+			this.triggerCallbacks();
+		};
+		reject = (rejectValue) => {
+			console.log("reject hit");
+			this.value = rejectValue;
+			this.triggerCallbacks();
+		};
+
+		main(resolve, reject);
+	}
+
+	then(cb) {
+		const next = new MyPromise((resolve) => {
+			this.callBacks.push((x) => resolve(cb(x)));
+		});
+		return next;
+		// this.callBacks.push(cb)
+	}
+
+	triggerCallbacks() {
+		this.callBacks.forEach((cb) => cb(this.value));
+	}
+}
+
+//  ------------------- Test resolve
+const resolveTest = new MyPromise((resolve, reject) => {
+	setTimeout(() => {
+		resolve("Success!");
+	}, 1000);
+});
+
+resolveTest
+	.then((value) => {
+		console.log("Resolved:", value); // LOG Resolved
+	})
+	.catch((reason) => {
+		console.error("Rejected:", reason);
+	});
+
+// Test reject
+const rejectTest = new MyPromise((resolve, reject) => {
+	setTimeout(() => {
+		reject("Error!");
+	}, 1000);
+});
+
+rejectTest
+	.then((value) => {
+		console.log("Resolved:", value);
+	})
+	.catch((reason) => {
+		console.error("Rejected:", reason); // LOG Rejected
+	});

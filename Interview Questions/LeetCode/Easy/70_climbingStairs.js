@@ -22,7 +22,22 @@
 
 // 1 <= n <= 45
 
-/***********************************/
+/**********************************
+
+O(n) - Iterative with Bottom up Dynamic programming 
+
+1. Init DP array with first two route combinations and rest filled with 0's up to n: [1, 2, 0, 0, 0, ..., n]
+2. Loop through n starting at i = 2 and fill in DP array dp[i] = dp[i - 1] + dp[i - 2]
+3. return dp[n]
+
+O(n) - Iterative with temp variables
+
+1. Init prev1 - num routes that led to target minus 2, and prev2 - num routes that lead to target minus 1
+2. Loop n starting at i =3. For each element:
+3. update prev1 and prev2 using a temp variable(follows fibonnaci sequence)
+4. return final prev2
+
+***********************************/
 
 // Iterative solution (least memory)
 

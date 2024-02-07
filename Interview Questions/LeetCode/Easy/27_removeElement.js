@@ -48,7 +48,7 @@
 
 // Iterative solution (optimal)
 // Note: nums only needs to be modified such that elements up to k are the non-val elements, and elements k + 1 and beyond can be anything (or not even exist )
-// For min complexity, avoid array methods that run in O(logN) ie splice(), shift(), etc.
+// For min complexity, avoid array methods that run in O(N) ie splice(), shift(), etc.
 
 /*
 1. Init variable k = 0;
