@@ -18,7 +18,23 @@
 // The number of nodes in the list is in the range [1, 100].
 // 1 <= Node.val <= 100
 
-/***********************************/
+/**********************************
+
+O(n) - Tortoise and Hare
+
+1. set two pointers slow and fast
+2. loop through nodes making fast pointer move twice as fast as slow pointer (similar to tortoise and hare algo)
+3. loop until fast pointer is null
+4. return slow pointer which moved half as far as fast pointer
+
+O(n) - Get length of entire list, move pointer to middle node
+
+1. write a function to get length of linkedlist
+2. get length of list starting at head
+3. loop the list until middle node is hit
+4. return middle node
+
+***********************************/
 
 // Iterative solution (improved)
 
