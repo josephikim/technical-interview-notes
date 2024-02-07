@@ -20,7 +20,28 @@
 
 // Follow up: A linked list can be reversed either iteratively or recursively. Could you implement both?
 
-/***********************************/
+/**********************************
+
+O(n) - Iterative
+
+1. Init curr = head and prev = null
+2. For each node, REVERSE the linkage from curr to curr.next (by pointing curr to prev node)
+
+//    1 -> 2 -> 3 -> 4
+// <- 1    2 -> 3 -> 4
+// <- 1 <- 2    3 -> 4
+// <- 1 <- 2 <- 3    4
+// <- 1 <- 2 <- 3 <- 4
+
+O(n) - Recursive reversal starting at last node
+
+1. base case returns last node as 'rest' (ie beginning of reversed linked list)
+2. For each recursion: Reverse all nodes starting with head.next, point head.next.next back to head, point head.next to null.
+3. Now you have incremented the reversed linked list with an additional node (ie head)
+4. Return the 'head' of the incremented reversed linked list ie 'rest'
+5. Once recursions are finished, return final 'rest'
+
+***********************************/
 
 // Iterative solution (optimal)
 
@@ -51,13 +72,13 @@ var reverseList = function (head) {
 	let curr = head;
 
 	while (curr) {
-		let next = curr.next; // set pointer to next
-		curr.next = prev; // reverse linkage from curr
+		let next = curr.next; // init next pointer
+		curr.next = prev; // reverse curr.next
 		// update pointers
 		prev = curr;
 		curr = next;
 	}
-	return prev; // prev points to the 'finished' list after each loop
+	return prev; // prev points to the head of reversed list after looping
 };
 
 /***********************************/
