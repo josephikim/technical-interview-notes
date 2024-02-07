@@ -27,7 +27,26 @@
 // 0 <= sr < m
 // 0 <= sc < n
 
-/***********************************/
+/**********************************
+
+O(n * m) - BFS
+
+1. check base case where old color equals new color at (sr, sc)
+2. init a BFS queue starring with (sr, sc)
+3. pull first element from queue, update matrix's color at element's coordinates
+4. check each 4-directional neighbor. if neighbor has old color, push neighbor's coordinates to queue
+5. repeat steps 3 and 4 until queue is empty
+6. return result image
+
+O(n * m) - Recursive DFS
+
+1. Create DFS function in which:
+2. Check base case (invalid square or square whose value is not original color)
+3. Update color of current square
+4. Apply DFS to all 4 sided neighbors
+5. Run DFS function on center square
+
+***********************************/
 
 // BFS Iterative solution
 
