@@ -1,3 +1,5 @@
+// Implmenting your own Promise class
+
 class MyPromise {
 	constructor(executionFunction) {
 		this.promiseChain = [];
