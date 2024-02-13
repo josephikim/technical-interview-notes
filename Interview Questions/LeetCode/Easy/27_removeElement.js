@@ -53,7 +53,8 @@
 /*
 1. Init variable k = 0;
 2. Loop nums
-3. if nums[i] equals val, set val to nums[k] and increment k
+3. if nums[i] does not equal val, set nums[i] to nums[k] and increment k
+4. return k
 */
 
 /**

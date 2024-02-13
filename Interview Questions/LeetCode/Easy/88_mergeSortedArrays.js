@@ -36,7 +36,24 @@
 
 // Follow up: Can you come up with an algorithm that runs in O(m + n) time?
 
-/***********************************/
+/**********************************
+
+O(n * m) - Iterative, in place
+
+1. Init pointer as 'last' index position of new merged list (m + n - 1)
+2. Loop nums1 and nums2 backwards using m and n as pointers.
+3. Compare values, update nums1[last] with greater value, decrement m or n and last.
+4. After looping, if elements remain in nums2, merge them into nums1
+
+O(n * m) - Iterative, create new Array
+
+1. Init result array = []
+2. loop through nums1 and nums2 using two 0-indexed pointers
+3. compare elements, push smaller into result, increment corresponsing pointer.
+4. Once nums1 or nums2 has finished, push elements of remainig array into result.
+5. set result as nums1. return nums1
+
+***********************************/
 
 // Iterative solution (optimized space)
 
@@ -44,7 +61,7 @@
 // space complexity = O(1)
 
 // Avoid creating a new result array, so that we save on memory space
-// 1. Init pointer at last position
+// 1. Init pointer as last index position of new merged list (m + n - 1)
 // 2. Compare last set of real values (ie nums1[m-1] and nums2[n-1])
 // 3. Update nums1[last] with greater value and decrement m or n
 // 4. decrement last
@@ -74,6 +91,7 @@ var merge = function (nums1, m, nums2, n) {
 		n--;
 		last--;
 	}
+	// don't need to handle case of (m > 0) because m represents indices in nums1, which is the array we want to modify only until all elements from nums2 (indicated by index n) has been incorporated.
 };
 
 /***********************************/

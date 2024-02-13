@@ -1,4 +1,5 @@
 // Implmenting your own Promise class
+// Note: catch(failureCallback) is short for then(null, failureCallback)
 
 // Supports async callbacks
 class MyPromise {
@@ -11,15 +12,30 @@ class MyPromise {
 			if (this.status === "pending") {
 				this.status = "fulfilled";
 				this.value = value;
-				this.onFulfilledCallbacks.forEach((fn) => fn(value));
+				try {
+					this.onFulfilledCallbacks.forEach((fn) => fn(value));
+				} catch (err) {
+					console.log("resolve err:", err);
+					this.onRejectedCallbacks.forEach((fn) => fn(value));
+				}
 			}
 		};
 
 		const reject = (value) => {
+			console.log("reject value:", value);
+
 			if (this.status === "pending") {
 				this.status = "rejected";
+				console.log("rej status", this.status);
 				this.value = value;
-				this.onRejectedCallbacks.forEach((fn) => fn(value));
+				try {
+					console.log("callbakcs", this.onRejectedCallbacks);
+					this.onRejectedCallbacks.forEach((fn) => fn(value));
+				} catch (err) {
+					console.log("reject err:", err);
+					// this.onRejectedCallbacks.forEach((fn) => fn(value));
+					// return err
+				}
 			}
 		};
 
@@ -30,10 +46,24 @@ class MyPromise {
 		}
 	}
 
-	catch(handleError) {
-		this.handleError = handleError;
+	// catch(handleError) {
+	// 	this.handleError = handleError;
 
-		return this;
+	// 	return this;
+	// }
+	catch(onRejected) {
+		console.log("onrejected:", onRejected.toString());
+		return new MyPromise((resolve, reject) => {
+			try {
+				// console.log("this.value", this.value);
+				const rejectedFromLastPromise = onRejected(this.value);
+				console.log({ rejectedFromLastPromise });
+				reject(rejectedFromLastPromise);
+			} catch (err) {
+				console.log("catch err:", err);
+				reject(err);
+			}
+		});
 	}
 
 	then(onFulfilled, onRejected) {
@@ -51,19 +81,24 @@ class MyPromise {
 						reject(err);
 					}
 				});
-				this.onRejectedCallbacks.push(() => {
-					try {
-						const rejectedFromLastPromise = onRejected(this.value);
-						if (rejectedFromLastPromise instanceof MyPromise) {
-							rejectedFromLastPromise.then(resolve, reject);
-						} else {
-							reject(rejectedFromLastPromise);
-						}
-					} catch (err) {
-						reject(err);
-					}
-				});
 			}
+
+			// if (this.status === "rejected") {
+			// 	this.onRejectedCallbacks.push(() => {
+			// 		try {
+			// 			console.log("this.value;", this.value);
+			// 			const rejectedFromLastPromise = onRejected(this.value);
+			// 			console.log({ rejectedFromLastPromise });
+			// 			if (rejectedFromLastPromise instanceof MyPromise) {
+			// 				rejectedFromLastPromise.then(resolve, reject);
+			// 			} else {
+			// 				reject(rejectedFromLastPromise);
+			// 			}
+			// 		} catch (err) {
+			// 			reject(err);
+			// 		}
+			// 	});
+			// }
 
 			if (this.status === "fulfilled") {
 				try {
@@ -80,6 +115,7 @@ class MyPromise {
 
 			if (this.status === "rejected") {
 				try {
+					console.log("err value:", this.value);
 					const rejectedFromLastPromise = onRejected(this.value);
 					if (rejectedFromLastPromise instanceof MyPromise) {
 						rejectedFromLastPromise.then(resolve, reject);
@@ -104,9 +140,15 @@ p1.then((res) => {
 	return new MyPromise((resolve) => {
 		setTimeout(() => resolve("resolved second one"), 1000);
 	});
-}).then((res) => {
-	console.log(res);
-});
+})
+	.then((res) => {
+		console.log(res);
+		throw new Error("catch me!");
+	})
+	.catch((reason) => {
+		console.log("error:", reason);
+		return reason;
+	});
 
 /*********************************/
 
