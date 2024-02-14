@@ -22,20 +22,31 @@
 
 // Follow up: Could you optimize your algorithm to use only O(rowIndex) extra space?
 
-/***********************************/
+/**********************************
 
-// Iterative solution
+O(n^2) - Iterative with DP
+
+1. Init result array 'rows'
+2. Create recursive function that generates a single row that calculates values from last row in dp
+3. Loop through each row index, call recursive function, update DP
+
+O(n^2 * 2^n/sqrt(n)) - Generate cells recursively without DP
+
+1. Create recursive function to generate cell with recursion relation: recurrence relation: f(i, j) = f(i−1, j−1) + f(i−1, j)
+2. Use two nested loops (rows & cols) to generate each row of elements one by one
+
+***********************************/
+
+// Iterative solution with DP
 
 // Time commplexity = O(nRows * nCols (= nRows)) => O(n^2) worst case
 // 		Triangle has 1 + 2 + ... + n elements. This is arithmetic progression that sums to n*(n+1)/2, which is in O(n^2)
 // Space complexity = O(1) depending if u count aux space
 // Aux space = O(n)
 
-// for each row
-// 	 loop through each column
-// 	 calculate total at (rowIndex, j), push to temp arr
-//   push temp arr to result arr
-// return result arr
+// 1. Init DP array 'rows'
+// 2. Create recursive function that generates a single row that calculates values from last row in dp
+// 3. Loop through each row index, call recursive function, update DP
 
 /**
  * @param {number} numRows
@@ -91,34 +102,6 @@ var generate = function (numRows) {
 	}
 	return res;
 };
-
-/***********************************/
-
-// Recursive solution 1 (MORE EFFICIENT than recursive solution 2 bc recursion generates whole row instead of single cell)
-
-// Time commplexity = O(N^2)
-//		each recursive call involves O(nRow) ie 1 + 2 + ... + n elements
-// 		This is arithmetic progression that sums to n*(n+1)/2, which is in O(n^2)
-// Auxiliary space = O(n) for temp array 'nextRow'
-// Space complexity = O(n) for max depth of recursive calls
-
-// create recursive function that generates a single row
-// each row call loops throw nRow and uses result from prev recursion as argument
-
-function generatePascal(n) {
-	if (n <= 0) return 1;
-	return generatePascalRow(generatePascal(n - 1));
-}
-
-function generatePascalRow(prevRow) {
-	let currRow = [];
-	currRow.push(1);
-	for (let i = 0; i < prevRow.length - 1; i++) {
-		currRow.push(prevRow[i] + prevRow[i + 1]);
-	}
-	currRow.push(1);
-	return currRow;
-}
 
 /***********************************/
 
