@@ -37,12 +37,13 @@ O(n) - Use Frequency map 0-indexed by unicode char code
 
 ***********************************/
 
-// Iterative solution (optimal)
+// Iterative solution (using Set)
 
 // Time complexity = O(2N) = O(N)
 // Space complexity = O(52) = O(1)
 
-// NOTE: only one instance of a non-paired char is allowed in total length
+// NOTE: only one instance of a non-paired char is allowed in total length of result string.
+
 // init freq Set()
 // loop through s, push elements into Set
 // when a pair of a given character is found, delete the odd instance of that char from Set, then add 2 to length to signify that a pair has been found

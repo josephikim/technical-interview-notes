@@ -21,16 +21,12 @@
 
 O(n) - Two pointers
 
+// Time complexity = O(n)
+// Space complexity = O(1)
+
 1. Init two pointers at left and right ends of array
 2. while l < r, use a temp variable to store left element, set left to right, set right to temp
 3. return reversed string
-
-***********************************/
-
-// Iterative solution - Two pointers
-
-// Time complexity = O(n)
-// Space complexity = O(1)
 
 /**
  * @param {character[]} s

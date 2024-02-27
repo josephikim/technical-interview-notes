@@ -23,7 +23,7 @@
 
 /***********************************/
 
-// Optimal solution (two pointer)
+// Optimal solution (two pointers)
 
 // Time complexity = O(log n)
 // Space complexity = O(1)

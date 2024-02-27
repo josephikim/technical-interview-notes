@@ -20,15 +20,31 @@
 
 // Follow up: Could you minimize the total number of operations done?
 
-/***********************************/
+/**********************************
+
+O(n) - One Pointer
+
+1. init pointer lastNonZeroFound = 0
+2. loop nums -> if nums[i] is nonzero, set nums[lastNonZeroFound] to nums[i] and increment lastNonZeroFound;
+3. IMPORTANT Once nums finishes looping, the subset from index lastNonZeroFound to nums.length needs to be filled in with zeroes.
+
+O(n) - Two Pointers with swapping
+
+1. init pointers l = 0 and r = 1 and loop while r < nums.length
+2. if nums[l] is zero and nums[r] is nonzero, swap the elements and increment both pointers
+3. if nums[l] is nonzero and nums[r] is zero, increment r
+4. if nums[l] and nums[r] is zero, increment r
+5. if nums[l] and nums[r] is nonzero, increment both
+
+
+***********************************/
 
 // Iterative solution (pushing non-zero elements down)
 
 /*
-1. init pointers lastNonZeroFound = 0 and loop nums
-2. if nums[i] is nonzero, set nums[lastNonZeroFound] to nums[i]
-3. increment lastNonZeroFound;
-4. loop any element from lastNonZeroFound to nums.length and fill in with 0
+1. init pointer lastNonZeroFound = 0
+2. loop nums -> if nums[i] is nonzero, set nums[lastNonZeroFound] to nums[i] and increment lastNonZeroFound;
+3. IMPORTANT Once nums finishes looping, the subset from index lastNonZeroFound to nums.length needs to be filled in with zeroes.
 */
 
 // time complexity = O(N)
