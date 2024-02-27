@@ -66,7 +66,7 @@ var containsDuplicate = function (nums) {
 
 /***********************************/
 
-// Iterative solution (less space complexity)
+// Iterative solution (nested for loops)
 
 // Time complexity = O(N)
 // Space complexity = O(1)

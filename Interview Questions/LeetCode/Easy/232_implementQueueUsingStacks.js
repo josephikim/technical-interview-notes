@@ -38,18 +38,21 @@
 
 /***********************************/
 
-// NOTE FOR JAVASCRIPT
-// JS spec does not natively have a stack data structure
+// NOTE ABOUT STACKS IN JS
+
+// JS spec does not natively have a stack data structure (so we mimic using simple arrays)
 // You can implement stack-like structure using arrays, or use a 3rd party library eg Immutable.js or Queue.js
 // These library usually include dequeue function that runs in amortized constant time. As a result, for larger queues, it can be significantly faster than using arrays.
 
 /***********************************/
 
-// Optimal solution
+// Optimal solution with 2 arrays
 
 // Allows for amortized O(1) time complexity
-// amortized means, in most cases (ie S2 is non-empty), it's O(1). But, in very few cases (ie S2 is empty), it's O(N). Hence, it is a amortized solution.
-// Use two stacks to implement a FIFO queue
+// Amortized means, in most cases (ie S2 is non-empty), it's O(1). But, in very few cases (ie S2 is empty), it's O(N). Hence, it is a amortized solution.
+
+// Use two arrays to implement a FIFO queue
+// NOTE: We are actually MIMICKING true stacks by using simple arrays. See stacks/definition.js for example of a custom MyStack class. Also see "NOTE ABOUT STACKS IN JS" above.
 
 var MyQueue = function () {
 	this.stack1 = [];
@@ -96,64 +99,14 @@ MyQueue.prototype.rearrange = function () {
 	}
 };
 
-// Manual implementation of a JS stack (optional)
-// var MyStack = function () {
-// 	this.items = [];
-// };
-
-// /**
-//  * @param {number} x
-//  * @return {void}
-//  */
-// MyStack.prototype.add = function (x) {
-// 	return this.items.push(x);
-// };
-
-// /**
-//  * @return {number}
-//  */
-// MyStack.prototype.remove = function () {
-// 	if (this.items.length > 0) {
-// 		return this.items.pop();
-// 	}
-// };
-
-// /**
-//  * @return {number}
-//  */
-// MyStack.prototype.peek = function () {
-// 	return this.items[this.items.length - 1];
-// };
-
-// /**
-//  * @return {boolean}
-//  */
-// MyStack.prototype.isEmpty = function () {
-// 	return this.items.length == 0;
-// };
-
-// /**
-//  * @return {number}
-//  */
-// MyStack.prototype.size = function () {
-// 	return this.items.length;
-// };
-
-// /**
-//  * @return {void}
-//  */
-// MyStack.prototype.clear = function () {
-// 	this.items = [];
-// };
-
 /***********************************/
 
-// Naive solution (uses JS built-in dynamic array)
+// Single-array solution (DOES NOT AMORTIZE)
 
 // Time complexity = O(N) N = list length
 // 	push() = O(1)
 // 	shift() = O(N)
-//  access ie arr[x] = O(1)
+//  access an element (arr[x]) = O(1)
 //  arr.length = O(1)
 
 // var MyQueue = function () {

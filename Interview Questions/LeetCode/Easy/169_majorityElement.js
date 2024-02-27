@@ -5,11 +5,13 @@
 // Example 1:
 
 // Input: nums = [3,2,3]
+
 // Output: 3
 
 // Example 2:
 
 // Input: nums = [2,2,1,1,1,2,2]
+
 // Output: 2
 
 // Constraints:
@@ -23,6 +25,7 @@
 /***********************************/
 
 // Iterative solution (better)
+// NOTE: this works BC we are explicitly looking for MAJORITY element ie occurs more than ⌊n / 2⌋ times. This would NOT work if searching for most common or most frequent element.
 
 // Time complexity = O(n)
 // Space complexity = O(1)
@@ -30,8 +33,9 @@
 // NOTE: this solution will loop through entire array, but still O(n)
 // 1. instead of tracking total occurences of majority element, we just want to track how often an element occurs relative to a previous 'breakeven' point
 // 2. tracked element will update after every breakeven point
-// 3. Eg, for [1, 2, x, y, z], on the third element, we are at a breakevent point. Disregard previous elements and just start tracking occurences of 'x'
-// after looping entire array, return latest tracked element
+// 3. Eg, for [1, 2, x, y, z] - by the third element 'x' we are at a breakevent point bc there is no majority element (IE net count of each element is 1) in the subset [1, 2].
+// NOTE: Assuming the majority element exists, the tracked element is guaranteed to wind up with a net count > 1
+// 4. after looping entire array, return tracked element
 
 // Why this works? Because assuming there exists a majority element (from either an odd-numbered array or even-numbered array), the majority element will always 'outweigh' the countering elements over the entire length of the array, even with the smallest majority:
 // [m, m, q, p, m ]

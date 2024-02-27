@@ -38,7 +38,7 @@
 
 /**********************************
 
-O(n * m) - Iterative, in place
+O(n * m) - Iterative, in place, backwards (hi to lo)
 
 1. Init pointer as 'last' index position of new merged list (m + n - 1)
 2. Loop nums1 and nums2 backwards using m and n as pointers.

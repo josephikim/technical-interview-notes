@@ -30,17 +30,16 @@
 /***********************************/
 /*
 
-O(n^2) - Brute Force
+O(n) - DP with map
+NOTE: This works for unsorted array
 
-This works for an unsorted array of integers
+1. Init map. Each entry will be in [complement]: arrayIndex key/value pairs.
+2. For each element in array, check if complement (target sum - current element) exists as key in the map.
+3. If key found, return answer as [map.get(complement), currentElementIndex].
+4. Otherwise update map with map.set(nums[currentElementIndex], currentElementIndex);
+5. Repeat steps 2 - 4 until you find the answer.
 
-1. Set up 2 nested for loops with i starting at 0 and j starting at i + 1
-2. Add element at i with element at j
-3. compare the sum with the target
-4. If sum is equal to target, return the indices of these two elements as the answer
-5. If sum is not equal to target, contiue looping
-
-O(nlogn) - Two Pointers including sorting
+O(nlogn) - Two Pointers with sorted array
 Note: O(n) if array is presorted
 
 1. Sort input array
@@ -49,49 +48,21 @@ Note: O(n) if array is presorted
 4. if sum is greater than target, decrement right pointer
 5. if sum is less than target, increment left pointer
 
-O(n) - Hash map
-Use map to store {[complement]: elementIndex]} pairs for each visisted element in array
-This works for unsorted array
-This means you have to do one loop at most
 
-1. Init map
-2. For each element in array, check if complement (target sum - current element) exits in the map.
-3. If found, return answer as [map[complement], currentElementIndex].
-4. Otherwise update map with {[complement]: currentElementIndex]}
-5. Repeat steps 2 - 4 until you find the answer.
+O(n^2) - Brute Force (nested for loops)
+NOTE: This works unsorted or sorted
+
+1. Set up 2 nested for loops with i starting at 0 and j starting at i + 1
+2. Add element at i with element at j
+3. compare the sum with the target
+4. If sum is equal to target, return the indices of these two elements as the answer
+5. If sum is not equal to target, contiue looping
+
 
 */
 /***********************************/
 
-// Iterative solution (sorted array with two pointers)
-
-// Note: ONLY WORKS FOR SORTED ARRAY (which would allow O(n)). If input is unsorted, it adds complexity bc we have to use sort() or toSorted() on original array and also recover indices from original array accounting for duplicate values.
-// If you have to leave array unsorted, consider using map-based solutions below for a O(n) solution.
-
-// Time complexity = O(n) + O(nlogn) for array.sort => O(nlogn)
-// Space complexity = O(1)
-
-// Algo (assuming sorted array)
-// 1. Init i at 0 and j at end
-// 2. check sum against target
-// 3. if found, return result
-// 4. if less than target, increment i. If more than target, decrement j
-// 5. repeat steps 2 - 4
-
-const twoSumSorted = (nums, target) => {
-	let i = 0,
-		j = nums.length - 1;
-	while (i < j) {
-		let sum = nums[i] + nums[j];
-		if (target === sum) return [i, j];
-		target > sum ? i++ : j--;
-	}
-	return null;
-};
-
-/***********************************/
-
-// Iterative solution (with JS Map)
+// DP solution (with JS Map)
 
 // Time complexity = O(n)
 // Space complexity = O(n)
@@ -100,8 +71,8 @@ const twoSumSorted = (nums, target) => {
 
 // 1. Init map
 // 2. For each element in array, check if complement (target sum - current element) exits in the map.
-// 3. If found, return answer as [map[complement], currentElementIndex].
-// 4. Otherwise update map with {[complement]: currentElementIndex]}
+// 3. If found, return answer as [map.get(complement), currentElementIndex].
+// 4. Otherwise update map with map.set(nums[currentElementIndex], currentElementIndex);
 // 5. Repeat steps 2 - 4 until you find the answer.
 
 const twoSumWithMap = (nums, target) => {
@@ -142,6 +113,34 @@ const twoSumWithMap = (nums, target) => {
 
 // 	return [];
 // };
+
+/***********************************/
+
+// Two pointers (with sorted array)
+
+// Note: ONLY WORKS FOR SORTED ARRAY (which would allow O(n)). If input is unsorted, it adds complexity bc we have to use sort() or toSorted() on original array and also recover indices from original array accounting for duplicate values.
+// If you have to leave array unsorted, consider using map-based solutions below for a O(n) solution.
+
+// Time complexity = O(n) + O(nlogn) for array.sort => O(nlogn)
+// Space complexity = O(1)
+
+// Algo (assuming sorted array)
+// 1. Init i at 0 and j at end
+// 2. check sum against target
+// 3. if found, return result
+// 4. if less than target, increment i. If more than target, decrement j
+// 5. repeat steps 2 - 4
+
+const twoSumSorted = (nums, target) => {
+	let i = 0,
+		j = nums.length - 1;
+	while (i < j) {
+		let sum = nums[i] + nums[j];
+		if (target === sum) return [i, j];
+		target > sum ? i++ : j--;
+	}
+	return null;
+};
 
 /***********************************/
 
